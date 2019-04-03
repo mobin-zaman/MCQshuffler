@@ -2,13 +2,16 @@ import javax.swing.*;
 
 import java.awt.*;
 import java.awt.event.*;
+import javax.swing.border.Border;
+
+import Theme.*;
 
 class LoginFrame extends JFrame implements ActionListener {
 
     Container c;
 
     // Labels
-    JLabel heading = new JLabel("Student Login");
+    JLabel heading = new JLabel("<HTML><U>Student Login</U></HTML>");
     JLabel userName = new JLabel("Username:");
     JLabel password = new JLabel("Password:");
     JLabel singUpText = new JLabel("Don't have an account? ");
@@ -26,7 +29,10 @@ class LoginFrame extends JFrame implements ActionListener {
     Color whiteColor = new Color(255, 255, 255);
     Color primaryColor = new Color(63, 81, 181);
     Color textColor = new Color(116, 116, 116);
-    Color secondaryColor = new Color(233, 30, 99);
+    Color secondaryColor = new Color(44, 62, 80);
+
+    // Borders
+    Border border = BorderFactory.createLineBorder(primaryColor);
 
     LoginFrame() {
 
@@ -39,9 +45,11 @@ class LoginFrame extends JFrame implements ActionListener {
 
         userName.setBounds(150, 100, 100, 40);
         userTextField.setBounds(250, 100, 400, 40);
+        userTextField.setBorder(border);
 
         password.setBounds(150, 180, 100, 40);
         passwordField.setBounds(250, 180, 400, 40);
+        passwordField.setBorder(border);
 
         warning.setBounds(150, 350, 500, 100);
         loginBtn.setBounds(150, 250, 500, 45);
@@ -50,7 +58,7 @@ class LoginFrame extends JFrame implements ActionListener {
 
         // Fonts
         Font font = new Font("Roboto", Font.PLAIN, 18);
-        Font HeadingFont = new Font("Roboto", Font.PLAIN, 22);
+        Font HeadingFont = new Font("Roboto", Font.CENTER_BASELINE, 22);
         heading.setFont(HeadingFont);
         userName.setFont(font);
         password.setFont(font);
@@ -91,25 +99,26 @@ class LoginFrame extends JFrame implements ActionListener {
     // Action listener
     public void actionPerformed(ActionEvent event) {
 
-        ;
+        if (event.getSource() == loginBtn) {
 
-        if (event.getSource() == loginBtn && !userTextField.getText().isEmpty() && !userTextField.getText().isEmpty()) {
+            if (!userTextField.getText().isEmpty() && !userTextField.getText().isEmpty()) {
 
-            c.remove(warning);
+                c.remove(warning);
 
-            String user = userTextField.getText();
-            String pass = passwordField.getText();
+                String user = userTextField.getText();
+                String pass = passwordField.getText();
 
-            // Checking user name and passwords
-            if (user.equals("Test") && pass.equals("12345")) {
-                c.setBackground(Color.GREEN);
+                // Checking username and passwords
+                if (user.equals("Test") && pass.equals("12345")) {
+                    c.setBackground(Color.GREEN);
+                } else {
+                    c.setBackground(Color.RED);
+
+                }
+
             } else {
-                c.setBackground(Color.RED);
-
+                c.add(warning);
             }
-        } else {
-
-            c.add(warning);
 
         }
     }
