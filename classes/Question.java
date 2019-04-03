@@ -1,3 +1,3 @@
-package Class;
+package classes;
 public class Question {
 }

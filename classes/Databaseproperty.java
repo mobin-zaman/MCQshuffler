@@ -1,11 +1,13 @@
+package classes;
 import java.io.FileInputStream;
 import java.util.Properties;
 
-public class DBProperty {
+public class Databaseproperty {
     Properties properties;
     FileInputStream fileInputStream;
+    
 
-    public DBProperty()  {
+    public Databaseproperty()  {
         //initiate fileInputStream
         try {
             fileInputStream = new FileInputStream("/home/terminal/abc/MCQshuffler/config.properties");
