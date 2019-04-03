@@ -5,6 +5,7 @@ import java.util.*;
 
 
 import classes.*;
+import dbfunctions.*;
 import database.DB;
 
 import org.apache.commons.dbutils.*;
@@ -12,9 +13,9 @@ import org.apache.commons.dbutils.handlers.*;
 
 public class Main {
 
+
     public static void main(String[] args) throws SQLException {
 
-        DB db = new DB();
 
         // ResultSetHandler <List<Question>> resultSetHandler=new BeanListHandler<Question>(Question.class);
 
@@ -38,20 +39,11 @@ public class Main {
         // int insertedRecords=db.run.update(db.getConn(),sql,"1","first exam ever");
         // System.out.println(insertedRecords);
         
-        createExam("test exam",3,1);
+        Examdb.createExam("final2 test exam",3,1);
 
 
     }
        
-        static void createExam(String description, int numberOfQuestions, int courseId){
-        DB db = new DB();
-        String sql="Insert into exam(courseId,Description) Values(?,?)";
-        try{
-        int insertedId=db.run.update(db.getConn(),sql,courseId,description);
-        } catch (Exception e){
-            System.out.println(e);
-        }
-        System.out.println("insertid: "+db.lastInsertId());
-        }
+    
     
 }

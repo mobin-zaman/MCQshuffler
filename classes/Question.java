@@ -1,4 +1,7 @@
 package classes;
+
+import org.apache.commons.dbutils.ResultSetHandler;
+
 public class Question {
     private int id;
     private int courseId;

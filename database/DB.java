@@ -1,7 +1,6 @@
 package database;
 import java.math.BigInteger;
 import java.sql.*;
-import classes.Databaseproperty;
 import org.apache.commons.dbutils.*;
 import org.apache.commons.dbutils.handlers.ScalarHandler;
 
