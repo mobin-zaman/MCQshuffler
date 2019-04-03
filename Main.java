@@ -1,11 +1,13 @@
 import java.sql.Connection;
 import java.sql.DriverManager;
-import classes.Teacher;
+import classes.Student;
 import java.sql.SQLException;
+import java.util.*;
 
-import classes.DB;
+
+import classes.*;
 import org.apache.commons.dbutils.*;
-import org.apache.commons.dbutils.handlers.BeanHandler;
+import org.apache.commons.dbutils.handlers.*;
 
 public class Main {
 
@@ -31,13 +33,26 @@ public class Main {
         // }
         // System.out.println("2");
         // -----------------------------------------------------------------------------------
-        ResultSetHandler<Teacher> resultHandler = new BeanHandler<Teacher>(Teacher.class);
-       
+
         DB db = new DB();
-            Teacher emp = db.run.query(db.getConn(), "SELECT * FROM teacher WHERE name=?",resultHandler, "mohaim");
-            System.out.println("id: "+emp.getId());
-            System.out.println("name: "+emp.getName());
-            System.out.println("password "+emp.getPassword());
+
+        ResultSetHandler <List<Question>> resultSetHandler=new BeanListHandler<Question>(Question.class);
+
+        List<Question> questionList = db.run.query(db.getConn(),"SELECT * FROM question where courseId=?",resultSetHandler,"1");
+        Collections.shuffle(questionList);
+
+        for(Question q:questionList){
+            System.out.println("id: "+q.getId());
+            System.out.println("description: "+q.getDescription());
+            System.out.println("choice 1"+q.getChoiceOne());
+            System.out.println("choice 2"+q.getChoiceTwo());
+            System.out.println("choice 3"+q.getChoiceThree());
+            System.out.println("choice 4"+q.getChoiceFour());
+            System.out.println();
+            System.out.println("correct answer"+q.getCorrectChoice());
+        }
+
+
         }
        
 }
