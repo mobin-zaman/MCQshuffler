@@ -8,7 +8,7 @@ public class DBProperty {
     public DBProperty()  {
         //initiate fileInputStream
         try {
-            fileInputStream = new FileInputStream("/home/terminal/abc/MCQshuffler/src/config.properties");
+            fileInputStream = new FileInputStream("/home/terminal/abc/MCQshuffler/config.properties");
         } catch (Exception e) {
             System.out.println("exception: " + e);
         }
