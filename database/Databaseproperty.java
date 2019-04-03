@@ -1,4 +1,4 @@
-package classes;
+package database;
 import java.io.FileInputStream;
 import java.util.Properties;
 

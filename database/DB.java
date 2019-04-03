@@ -1,4 +1,4 @@
-package classes;
+package database;
 import java.sql.*;
 import classes.Databaseproperty;
 import org.apache.commons.dbutils.*;
