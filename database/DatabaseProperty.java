@@ -1,21 +1,21 @@
 package database;
+
 import java.io.FileInputStream;
 import java.util.Properties;
 
-public class Databaseproperty {
+public class DatabaseProperty {
     Properties properties;
     FileInputStream fileInputStream;
-    
 
-    public Databaseproperty()  {
-        //initiate fileInputStream
+    public DatabaseProperty() {
+        // initiate fileInputStream
         try {
             fileInputStream = new FileInputStream("/home/terminal/abc/MCQshuffler/config.properties");
         } catch (Exception e) {
             System.out.println("exception: " + e);
         }
 
-        //initiate property
+        // initiate property
         properties = new Properties();
 
         try {
@@ -25,15 +25,16 @@ public class Databaseproperty {
         }
     }
 
-    public String username(){
+    public String username() {
         return properties.getProperty("username");
     }
-    public String password(){
+
+    public String password() {
         return properties.getProperty("password");
     }
-    public String url(){
+
+    public String url() {
         return properties.getProperty("url");
     }
 
 }
-

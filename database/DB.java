@@ -8,10 +8,10 @@ import org.apache.commons.dbutils.handlers.ScalarHandler;
 public class DB {
     private Connection connection;
     public QueryRunner run;
-    private Databaseproperty dbproperty;
+    private DatabaseProperty dbproperty;
 
     public DB() {
-        dbproperty = new Databaseproperty();
+        dbproperty = new DatabaseProperty();
         run = new QueryRunner();
         DbUtils.loadDriver("com.mysql.jdbc.Driver");
         System.out.println("db driver loaded");

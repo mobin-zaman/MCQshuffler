@@ -6,12 +6,12 @@ import java.util.List;
 import java.util.*;
 
 public class Examdb {
-    public static void createExam(String description, int numberOfQuestions, int courseId) {
+    public static void createExam(String description, int numberOfQuestions, int courseId, int duration) {
         DB db = new DB();
         // fist insert the exam description, then retrieve id
-        String sql = "Insert into exam(courseId,Description) Values(?,?)";
+        String sql = "Insert into exam(courseId,description,duration) Values(?,?,?)";
         try {
-            db.run.update(db.getConn(), sql, courseId, description);
+            db.run.update(db.getConn(), sql, courseId, description, duration);
         } catch (Exception e) {
             System.out.println(e);
         }
