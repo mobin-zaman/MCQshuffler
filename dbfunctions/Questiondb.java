@@ -50,9 +50,7 @@ public class Questiondb {
         String sql = "SELECT * FROM question WHERE id IN(SELECT questionId FROM exam_question WHERE examId=?)";
 
         try {
-            System.out.println("Inserting Questions");
-            db.run.update(db.getConn(), sql, q.getCourseId(), q.getDescription(), q.getChoiceOne(), q.getChoiceTwo(),
-                    q.getChoiceThree(), q.getChoiceFour(), q.getCorrectChoice());
+            questionList = db.run.query(db.getConn(), sql, resultSetHandler, examId);
         } catch (Exception e) {
             System.out.println("getExamQuestions(): " + e);
         }
