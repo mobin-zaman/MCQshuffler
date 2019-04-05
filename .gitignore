@@ -1,7 +1,3 @@
 config.properties
 *.class
-<<<<<<< HEAD
-*.idea
-=======
-.idea/
->>>>>>> 686989c88efabe0ecf46dfe70af25760076c2f52
+

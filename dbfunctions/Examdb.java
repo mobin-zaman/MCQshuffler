@@ -19,7 +19,7 @@ public static void createExam(String description, int numberOfQuestions, int cou
     
     //now get Question of the corresponding course for the exam
     //we get it by the courseId parameter
-    List <Question> questionList =Questiondb.getRandomQuestionIdList(courseId);
+    List <Question> questionList =Questiondb.getRandomQuestionList(courseId);
 
     //now insert into exam_relations table, given by numberOfQuestions
 
@@ -28,7 +28,7 @@ public static void createExam(String description, int numberOfQuestions, int cou
     sql="Insert into exam_question(examId,questionId) Values(?,?)";
         for(int i=0;i<numberOfQuestions;i++){
         int x=questionList.get(i).getId();
-    try { db.run.update(db.getConn(), sql, examId,x);
+        try { db.run.update(db.getConn(), sql, examId,x);
           } catch(Exception e) {System.out.println("createExam: "+e);}
         }
     }
