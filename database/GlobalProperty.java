@@ -26,8 +26,8 @@ public class GlobalProperty {
         }
     }
 
-    public void setProperty(String key, int value) {
-        properties.setProperty(key, Integer.toString(value));
+    public void setProperty(String key, String value) {
+        properties.setProperty(key, value);
         try {
             properties.store(new FileOutputStream("/home/terminal/abc/MCQshuffler/global.properties"), null);
         } catch (Exception e) {

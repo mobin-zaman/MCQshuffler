@@ -6,11 +6,10 @@ import org.apache.commons.dbutils.ResultSetHandler;
 import org.apache.commons.dbutils.handlers.*;
 
 import classes.Teacher;
-import database.DB;
-import database.GlobalProperty;
-import jdk.nashorn.internal.objects.Global;
+import database.*;
 
 public class Teacherdb {
+
     public static boolean login(String username, String password) {
         DB db = new DB();
         String sql = "SELECT id FROM teacher WHERE name=? AND password=?";
@@ -27,13 +26,24 @@ public class Teacherdb {
 
         if (teacher == null) {
             System.out.println("teacher not available");
+            GP.setProperty("teacherId", "-1");
             return false;
         }
 
         else {
             GlobalProperty gp = new GlobalProperty();
-            gp.setProperty("teacherId", teacher.getId());
+            gp.setProperty("teacherId", Integer.toString(teacher.getId()));
             return true;
         }
+    }
+
+    public static void logout() {
+        GlobalProperty gp = new GlobalProperty();
+        gp.setProperty("teacherId", "-1");
+    }
+
+    // TODO: will be done with the gui
+    public static void SignUp() {
+
     }
 }
