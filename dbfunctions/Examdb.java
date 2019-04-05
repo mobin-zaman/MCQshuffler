@@ -3,9 +3,28 @@ package dbfunctions;
 import database.DB;
 import classes.*;
 import java.util.List;
+
+import org.apache.commons.dbutils.ResultSetHandler;
+import org.apache.commons.dbutils.handlers.BeanListHandler;
+
 import java.util.*;
 
 public class Examdb {
+
+    public static List<Exam> getExamList(int courseId) {
+        List<Exam> examList = null;
+        DB db = new DB();
+
+        String sql = "SELECT * FROM exam WHERE courseId=?";
+        ResultSetHandler<List<Exam>> resultSetHandler = new BeanListHandler<Exam>(Exam.class);
+        try {
+            examList = db.run.query(db.getConn(), sql, resultSetHandler, courseId);
+        } catch (Exception e) {
+            System.out.println("getExamList(): " + e);
+        }
+        return examList;
+    }
+
     public static void createExam(String description, int numberOfQuestions, int courseId, int duration) {
         DB db = new DB();
         // fist insert the exam description, then retrieve id
