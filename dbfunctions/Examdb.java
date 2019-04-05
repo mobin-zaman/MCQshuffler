@@ -3,6 +3,7 @@ package dbfunctions;
 import database.DB;
 import classes.*;
 import java.util.List;
+import java.util.*;
 
 public class Examdb {
     public static void createExam(String description, int numberOfQuestions, int courseId) {
@@ -34,6 +35,15 @@ public class Examdb {
                 System.out.println("createExam: " + e);
             }
         }
+    }
+
+    public static void runExam(int examId) {
+        DB db = new DB();
+        List<Question> questionList = Questiondb.getExamQuestions(examId);
+        // shuffle for every exam instance
+        Collections.shuffle(questionList);
+
+        // TODO: needs to be continued after finishig gui
     }
 
     //
