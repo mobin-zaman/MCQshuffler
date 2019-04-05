@@ -12,6 +12,18 @@ public class Question {
     private String choiceFour;
     private String correctChoice;
 
+    public Question(int id, int courseId, Stirng Description, String choiceOne, String choiceTwo, String choiceThree,
+            String choiceFour, String correctChoice) {
+        this.id = id;
+        this.courseId = courseId;
+        this.Description = Description;
+        this.choiceOne = choiceOne;
+        this.choiceTwo = choiceTwo;
+        this.choiceThree = choiceThree;
+        this.choiceFour = choiceFour;
+        this.correctChoice = currentChoice;
+    }
+
     public int getId() {
         return id;
     }
@@ -75,6 +87,5 @@ public class Question {
     public void setCorrectChoice(String correctAnswer) {
         this.correctChoice = correctAnswer;
     }
-
 
 }
