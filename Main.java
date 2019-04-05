@@ -40,6 +40,10 @@ public class Main {
 
         Examdb.createExam("final2 test exam", 3, 1);
 
+        Question q1 = new Question(01, 101, "Oneboro", "hell1", "hell2", "hell3", "hell4", "hell1");
+
+        dbfunctions.insertQuestion(101, q1);
+
     }
 
 }
