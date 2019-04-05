@@ -1,5 +1,5 @@
 package classes;
 
-public class Exam{
-
+public class Exam {
+    // test
 }
