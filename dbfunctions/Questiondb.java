@@ -38,6 +38,7 @@ public class Questiondb {
         DB db = new DB();
         String sql = "Insert into question (courseId,description,choiceOne,choiceTwo,choiceThree,choiceFour,correctChoice) Value(?,?,?,?,?,?,?)";
         try {
+            System.out.println("Inserting Questions");
             db.run.update(db.getConn(), sql, q.getCourseId(), q.getDescription(), q.getChoiceOne(), q.getChoiceTwo(),
                     q.getChoiceThree(), q.getChoiceFour(), q.getCorrectChoice());
         } catch (Exception e) {
