@@ -40,7 +40,7 @@ public class Questiondb {
 
     // for retrieving all the questions of an exam
     public static List<Question> getExamQuestions(int examId) {
-        DB db = new DB();
+        DB db = DB.getDB();
         // needed for passing to db.run.query()
         ResultSetHandler<List<Question>> resultSetHandler = new BeanListHandler<Question>(Question.class);
         // needed for return

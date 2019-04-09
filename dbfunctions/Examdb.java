@@ -32,7 +32,7 @@ public class Examdb {
         try {
             db.run.update(db.getConn(), sql, courseId, description, duration);
         } catch (Exception e) {
-            System.out.println(e);
+            System.out.println("createExam(): " + e);
         }
         // retrieving done
         int examId = db.lastInsertId();

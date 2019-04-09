@@ -1,10 +1,12 @@
 package dbfunctions;
 
+import java.util.List;
 import java.util.prefs.Preferences;
 
 import org.apache.commons.dbutils.ResultSetHandler;
 import org.apache.commons.dbutils.handlers.*;
 
+import classes.Student;
 import classes.Teacher;
 import database.*;
 
@@ -52,5 +54,23 @@ public class Teacherdb {
     public String getTeacherName(String teacherId) {
         String teacherName = null;
         return teacherName;
+    }
+
+    // to show the requestListOfTheCourse
+    public List<Student> getRequestList(String courseId) {
+        DB db = DB.getDB();
+
+        String sql = "SELECT * FROM student WHERE id in (SELECT studentId FROM request WHERE courseId=? AND isRejected=0 AND isAccepted=0)";
+
+        List<Student> studentList = null;
+        ResultSetHandler<List<Student>> resultSetHandler = new BeanListHandler<Student>(Student.class);
+
+        try {
+            studentList = db.run.query(db.getConn(), sql, resultSetHandler, courseId);
+        } catch (Exception e) {
+            System.out.println("getRequestList(): " + e);
+        }
+
+        return studentList;
     }
 }

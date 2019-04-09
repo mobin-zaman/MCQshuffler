@@ -14,12 +14,14 @@ public class Main {
 
     public static void main(String[] args) throws SQLException {
 
-        List<Course> course = Coursedb.getCourseList("1");
-        course.forEach((c) -> {
-            System.out.println(c.getId());
-            System.out.println(c.getName());
-            System.out.println(c.getTeacherId());
-        });
+        System.out.println(Studentdb.isRejected("1", "2"));
+
+        // List<Course> course = Coursedb.getCourseList("1");
+        // course.forEach((c) -> {
+        // System.out.println(c.getId());
+        // System.out.println(c.getName());
+        // System.out.println(c.getTeacherId());
+        // });
 
         // ResultSetHandler <List<Question>> resultSetHandler=new
         // BeanListHandler<Question>(Question.class);
