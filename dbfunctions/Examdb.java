@@ -13,7 +13,7 @@ public class Examdb {
 
     public static List<Exam> getExamList(int courseId) {
         List<Exam> examList = null;
-        DB db = new DB();
+        DB db = DB.getDB();
 
         String sql = "SELECT * FROM exam WHERE courseId=?";
         ResultSetHandler<List<Exam>> resultSetHandler = new BeanListHandler<Exam>(Exam.class);
@@ -26,7 +26,7 @@ public class Examdb {
     }
 
     public static void createExam(String description, int numberOfQuestions, int courseId, int duration) {
-        DB db = new DB();
+        DB db = DB.getDB();
         // fist insert the exam description, then retrieve id
         String sql = "Insert into exam(courseId,description,duration) Values(?,?,?)";
         try {
@@ -57,7 +57,7 @@ public class Examdb {
     }
 
     public static void runExam(int examId) {
-        DB db = new DB();
+        DB db = DB.getDB();
         List<Question> questionList = Questiondb.getExamQuestions(examId);
         // shuffle for every exam instance
         Collections.shuffle(questionList);

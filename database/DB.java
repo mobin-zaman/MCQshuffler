@@ -9,8 +9,9 @@ public class DB {
     private Connection connection;
     public QueryRunner run;
     private DatabaseProperty dbproperty;
+    private static DB uniqueInstance;
 
-    public DB() {
+    private DB() {
         dbproperty = new DatabaseProperty();
         run = new QueryRunner();
         DbUtils.loadDriver("com.mysql.jdbc.Driver");
@@ -22,6 +23,14 @@ public class DB {
             System.out.println("exception in DB constructor: " + e);
         }
         System.out.println("db initiation done");
+
+    }
+
+    public static DB getDB() {
+        if (uniqueInstance == null) {
+            uniqueInstance = new DB();
+        }
+        return uniqueInstance;
 
     }
 

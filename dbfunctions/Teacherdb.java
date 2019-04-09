@@ -11,7 +11,7 @@ import database.*;
 public class Teacherdb {
 
     public static boolean login(String username, String password) {
-        DB db = new DB();
+        DB db = DB.getDB();
         String sql = "SELECT id FROM teacher WHERE name=? AND password=?";
 
         ResultSetHandler<Teacher> resultSetHandler = new BeanHandler<Teacher>(Teacher.class);
@@ -31,19 +31,26 @@ public class Teacherdb {
         }
 
         else {
-            GlobalProperty gp = new GlobalProperty();
-            gp.setProperty("teacherId", Integer.toString(teacher.getId()));
+            // these global property might not be needed
+            // GlobalProperty gp = new GlobalProperty();
+            // gp.setProperty("teacherId", Integer.toString(teacher.getId()));
             return true;
         }
     }
 
-    public static void logout() {
-        GlobalProperty gp = new GlobalProperty();
-        gp.setProperty("teacherId", "-1");
-    }
+    // public static void logout() {
+    // GlobalProperty gp = new GlobalProperty();
+    // gp.setProperty("teacherId", "-1");
+    // }
 
     // TODO: will be done with the gui
     public static void SignUp() {
 
+    }
+
+    // might be useful
+    public String getTeacherName(String teacherId) {
+        String teacherName = null;
+        return teacherName;
     }
 }

@@ -1,7 +1,5 @@
 package classes;
 
-import org.apache.commons.dbutils.ResultSetHandler;
-
 public class Question {
     private int id;
     private int courseId;
@@ -11,7 +9,6 @@ public class Question {
     private String choiceThree;
     private String choiceFour;
     private String correctChoice;
-    
 
     public int getId() {
         return id;
@@ -76,6 +73,5 @@ public class Question {
     public void setCorrectChoice(String correctAnswer) {
         this.correctChoice = correctAnswer;
     }
-
 
 }
