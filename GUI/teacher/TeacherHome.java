@@ -5,6 +5,7 @@ import dbfunctions.Coursedb;
 import dbfunctions.Teacherdb;
 import classes.Course;
 
+import javax.swing.border.EmptyBorder;
 import java.util.List;
 import javax.swing.*;
 import java.awt.event.*;
@@ -137,6 +138,7 @@ public class TeacherHome extends JFrame implements ActionListener, MouseListener
         }
         courseList = new JList(courseName);
         courseList.setFont(font.getMediumFont());
+        courseList.setBorder(new EmptyBorder(10, 10, 10, 10));
         courseList.setForeground(color.getTextColor());
         courseList.setBounds(40, 150, 300, 450);
         courseList.addMouseListener(this);

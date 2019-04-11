@@ -11,17 +11,18 @@ import javax.swing.*;
 import java.awt.event.*;
 import java.awt.*;
 
-public class CoursePage extends JFrame implements ActionListener {
+public class CoursePage extends JFrame implements ActionListener, MouseListener {
 
-    private JLabel navBar, titleBar, welcome, boxOne, title;
-    private JButton addQuestion, addExam, students, requests, logoutButton, updateButton;
+    private JLabel navBar, titleBar, welcome, boxOne, title, oneLabel, twoLabel, threeLabel, fourLabel;
+    private JButton addQuestion, addExam, students, requests, logoutButton, updateButton, backButton;
+    private JTextField theQuestion, choice1, choice2, choice3, choice4;
 
     private JScrollPane scrollPane;
 
+    private int courseId;
     private JList questionList;
 
-    private String name;
-    private int courseId;
+    private String name, teacherID;
 
     private JPanel panel;
 
@@ -35,6 +36,7 @@ public class CoursePage extends JFrame implements ActionListener {
 
         this.name = name;
         this.courseId = courseId;
+        this.teacherID = Integer.toString(courseId);
 
         // UI Elements
         this.setSize(1000, 700);
@@ -54,19 +56,76 @@ public class CoursePage extends JFrame implements ActionListener {
         welcome.setBounds(40, 18, 400, 25);
         panel.add(welcome);
 
-        logoutButton = new JButton("Logout");
-        logoutButton.setFont(font.getprimaryFont());
-        logoutButton.setBackground(color.getsecondaryButtonColor());
-        logoutButton.setForeground(color.getBgColor());
-        logoutButton.setFocusPainted(false);
-        logoutButton.setBounds(850, 13, 100, 35);
-        panel.add(logoutButton);
+        backButton = new JButton("Back");
+        backButton.setFont(font.getprimaryFont());
+        backButton.setBackground(color.getsecondaryButtonColor());
+        backButton.setForeground(color.getBgColor());
+        backButton.setFocusPainted(false);
+        backButton.setBounds(850, 13, 100, 35);
+        backButton.addActionListener(this);
+        panel.add(backButton);
 
         navBar = new JLabel();
         navBar.setOpaque(true);
         navBar.setBackground(color.getNavbarColor());
         navBar.setBounds(5, 5, 975, 50);
         panel.add(navBar);
+
+        // Input boxes
+
+        theQuestion = new JTextField();
+        theQuestion.setBounds(620, 110, 312, 60);
+        theQuestion.setBackground(color.getBgColor());
+        theQuestion.setFont(font.getMediumFont());
+        panel.add(theQuestion);
+
+        choice1 = new JTextField();
+        choice1.setBounds(650, 200, 200, 35);
+        choice1.setBackground(color.getBgColor());
+        choice1.setFont(font.getMediumFont());
+        panel.add(choice1);
+
+        choice2 = new JTextField();
+        choice2.setBounds(650, 250, 200, 35);
+        choice2.setBackground(color.getBgColor());
+        choice2.setFont(font.getMediumFont());
+        panel.add(choice2);
+
+        choice3 = new JTextField();
+        choice3.setBounds(650, 300, 200, 35);
+        choice3.setBackground(color.getBgColor());
+        choice3.setFont(font.getMediumFont());
+        panel.add(choice3);
+
+        choice4 = new JTextField();
+        choice4.setBounds(650, 350, 200, 35);
+        choice4.setBackground(color.getBgColor());
+        choice4.setFont(font.getMediumFont());
+        panel.add(choice4);
+
+        oneLabel = new JLabel("1)");
+        oneLabel.setBounds(620, 200, 30, 20);
+        oneLabel.setFont(font.getprimaryFont());
+        oneLabel.setForeground(color.getBgColor());
+        panel.add(oneLabel);
+
+        twoLabel = new JLabel("2)");
+        twoLabel.setBounds(620, 250, 30, 20);
+        twoLabel.setFont(font.getprimaryFont());
+        twoLabel.setForeground(color.getBgColor());
+        panel.add(twoLabel);
+
+        threeLabel = new JLabel("3)");
+        threeLabel.setBounds(620, 300, 30, 20);
+        threeLabel.setFont(font.getprimaryFont());
+        threeLabel.setForeground(color.getBgColor());
+        panel.add(threeLabel);
+
+        fourLabel = new JLabel("4)");
+        fourLabel.setBounds(620, 350, 30, 20);
+        fourLabel.setFont(font.getprimaryFont());
+        fourLabel.setForeground(color.getBgColor());
+        panel.add(fourLabel);
 
         // Buttons
 
@@ -76,6 +135,7 @@ public class CoursePage extends JFrame implements ActionListener {
         addQuestion.setForeground(color.getBgColor());
         addQuestion.setFocusPainted(false);
         addQuestion.setBounds(30, 100, 200, 80);
+        addQuestion.addActionListener(this);
         panel.add(addQuestion);
 
         addExam = new JButton("Exam");
@@ -84,6 +144,7 @@ public class CoursePage extends JFrame implements ActionListener {
         addExam.setForeground(color.getBgColor());
         addExam.setFocusPainted(false);
         addExam.setBounds(30, 240, 200, 80);
+        addExam.addActionListener(this);
         panel.add(addExam);
 
         students = new JButton("Student List");
@@ -92,6 +153,7 @@ public class CoursePage extends JFrame implements ActionListener {
         students.setForeground(color.getBgColor());
         students.setFocusPainted(false);
         students.setBounds(30, 380, 200, 80);
+        students.addActionListener(this);
         panel.add(students);
 
         requests = new JButton("Requests");
@@ -100,6 +162,7 @@ public class CoursePage extends JFrame implements ActionListener {
         requests.setForeground(color.getBgColor());
         requests.setFocusPainted(false);
         requests.setBounds(30, 520, 200, 80);
+        requests.addActionListener(this);
         panel.add(requests);
 
         titleBar = new JLabel();
@@ -113,32 +176,27 @@ public class CoursePage extends JFrame implements ActionListener {
         title.setBounds(280, 75, 300, 25);
         panel.add(title);
 
-        List<Question> questionL = Questiondb.getAllQuestionList(courseId);
+        List<Question> courseQuestion = Questiondb.getAllQuestionList(courseId);
 
-        int length = questionL.size();
-        String questions[] = new String[length];
+        int length = courseQuestion.size();
+        String questionBak[] = new String[length];
         int i = 0;
-
-        for (Question c : questionL) {
-            questions[i] = c.getDescription();
+        for (Question c : courseQuestion) {
+            questionBak[i] = c.getDescription();
             i++;
-            System.out.println(c.getDescription());
         }
 
-        questionList = new JList(questions);
+        questionList = new JList(questionBak);
         questionList.setFont(font.getMediumFont());
         questionList.setForeground(color.getTextColor());
         questionList.setBounds(280, 100, 300, 500);
+        questionList.addMouseListener(this);
         panel.add(questionList);
-        // questionList.addMouseListener(this);
-
-        // JScrollPane scrollPane = new JScrollPane();
-        // scrollPane.setViewportView(questionList);
 
         boxOne = new JLabel();
         boxOne.setOpaque(true);
         boxOne.setBackground(color.gettBackgroundColor());
-        boxOne.setBounds(600, 100, 355, 300);
+        boxOne.setBounds(600, 100, 355, 320);
         panel.add(boxOne);
 
         updateButton = new JButton("Update Question");
@@ -147,24 +205,8 @@ public class CoursePage extends JFrame implements ActionListener {
         updateButton.setForeground(color.getBgColor());
         updateButton.setFocusPainted(false);
         updateButton.setBounds(652, 450, 250, 50);
+        updateButton.addActionListener(this);
         panel.add(updateButton);
-
-        // editButton = new JButton("Edit");
-        // editButton.setBounds(440, 260,100,30);
-        // editButton.setFont(font.getprimaryFont());
-        // editButton.setForeground(color.getBgColor());
-        // editButton.setBackground(color.getEditButtonColor());
-        // editButton.setFocusPainted(false);
-        // editButton.addActionListener(this);
-        // panel.add(editButton);
-
-        // deleteButton = new JButton("Delete");
-        // deleteButton.setBounds(560, 260,100,30);
-        // deleteButton.setFont(font.getprimaryFont());
-        // deleteButton.setForeground(color.getBgColor());
-        // deleteButton.setBackground(color.getDelteButtonColor());
-        // deleteButton.addActionListener(this);
-        // panel.add(deleteButton);
 
         this.add(panel);
 
@@ -175,22 +217,73 @@ public class CoursePage extends JFrame implements ActionListener {
     }
 
     public void actionPerformed(ActionEvent e) {
-        // if (e.getSource() == courseName) {
+        if (e.getSource() == backButton) {
 
-        // System.out.println("hjahahjauahja");
-        // // this.dispose();
-        // // TeacherHome f = new TeacherHome();
-        // // f.setLocationRelativeTo(null);
-        // // f.setVisible(true);
-        // // } else if (e.getSource() == homeButton) {
-        // // // Home(this);
-        // }
+            this.dispose();
+            TeacherHome f = new TeacherHome(name, teacherID);
+            f.setLocationRelativeTo(null);
+            f.setVisible(true);
+        } else if (e.getSource() == addQuestion) {
+
+            System.out.println("Add Question Clicked");
+            this.dispose();
+            AddQuestion f = new AddQuestion(name, teacherID);
+            f.setLocationRelativeTo(null);
+            f.setVisible(true);
+
+        } else if (e.getSource() == addExam) {
+            System.out.println("Add Exam Clicked");
+        } else if (e.getSource() == requests) {
+            System.out.println("Requests Clicked");
+        } else if (e.getSource() == students) {
+            System.out.println("Students Clicked");
+        }
 
     }
 
-    public static void main(String[] args) {
-        CoursePage d = new CoursePage("amr bap", 1);
-        d.setVisible(true);
+    public void mouseClicked(MouseEvent e) {
+
+        System.out.println("Mouse clicked");
+
+        if (e.getSource() == questionList) {
+
+            int selected = questionList.getSelectedIndex();
+
+            System.out.println(selected);
+
+            List<Question> c = Questiondb.getAllQuestionList(courseId);
+
+            String myQuestion = c.get(selected).getDescription();
+            String choiceOne = c.get(selected).getChoiceOne();
+            String choiceTwo = c.get(selected).getChoiceTwo();
+            String choiceThree = c.get(selected).getChoiceThree();
+            String choiceFour = c.get(selected).getChoiceFour();
+            String currectChoice = c.get(selected).getCorrectChoice();
+
+            System.out.println(currectChoice);
+
+            theQuestion.setText(myQuestion);
+            choice1.setText(choiceOne);
+            choice2.setText(choiceTwo);
+            choice3.setText(choiceThree);
+            choice4.setText(choiceFour);
+
+        } else {
+
+        }
+
+    }
+
+    public void mousePressed(MouseEvent e) {
+    }
+
+    public void mouseReleased(MouseEvent e) {
+    }
+
+    public void mouseEntered(MouseEvent e) {
+    }
+
+    public void mouseExited(MouseEvent e) {
     }
 
 }
