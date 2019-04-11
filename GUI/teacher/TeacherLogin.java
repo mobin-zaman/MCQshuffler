@@ -1,6 +1,7 @@
 package gui.teacher;
 
-import dbfunctions.*;
+import dbfunctions.Teacherdb;
+import gui.teacher.TeacherHome;
 
 import gui.components.MyColor;
 import gui.components.MyFont;
@@ -27,10 +28,6 @@ public class TeacherLogin extends JFrame implements ActionListener, MouseListene
     public TeacherLogin() {
 
         super("Teacher Login");
-
-        if (!Teacherdb.login("sadat", "123")) {
-            System.out.println(123);
-        }
 
         color = new MyColor();
         font = new MyFont();
@@ -131,20 +128,18 @@ public class TeacherLogin extends JFrame implements ActionListener, MouseListene
                 String name = usernameField.getText();
                 String pass = passwordField.getText();
 
-                // Database checking here
-
-                if (name.equals("sadat") && pass.equals("1234")) {
-                    dispose();
-                    TeacherHome teacherHome = new TeacherHome(name);
-                    teacherHome.setLocationRelativeTo(null);
-                    teacherHome.setVisible(true);
-
-                } else {
+                if (Teacherdb.login(name, pass) == -1) {
                     errorPane = new JOptionPane();
                     errorPane.setFont(font.getprimaryFont());
                     errorPane.showMessageDialog(null, "Username or Password is incorrect", "Wrong Information!",
                             JOptionPane.WARNING_MESSAGE);
+                } else {
+                    String teacherID = Integer.toString(Teacherdb.login(name, pass));
 
+                    dispose();
+                    TeacherHome teacherHome = new TeacherHome(name, teacherID);
+                    teacherHome.setLocationRelativeTo(null);
+                    teacherHome.setVisible(true);
                 }
             }
 

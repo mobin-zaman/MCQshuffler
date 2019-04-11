@@ -1,5 +1,7 @@
 package dbfunctions;
 
+import database.DB;
+
 import java.util.List;
 import java.util.prefs.Preferences;
 
@@ -8,11 +10,10 @@ import org.apache.commons.dbutils.handlers.*;
 
 import classes.Student;
 import classes.Teacher;
-import database.*;
 
 public class Teacherdb {
 
-    public static boolean login(String username, String password) {
+    public static int login(String username, String password) {
         DB db = DB.getDB();
         String sql = "SELECT id FROM teacher WHERE name=? AND password=?";
 
@@ -29,14 +30,14 @@ public class Teacherdb {
         if (teacher == null) {
             // System.out.println("teacher not available");
             // GP.setProperty("teacherId", "-1");
-            return false;
+            return -1;
         }
 
         else {
             // these global property might not be needed
             // GlobalProperty gp = new GlobalProperty();
             // gp.setProperty("teacherId", Integer.toString(teacher.getId()));
-            return true;
+            return teacher.getId();
         }
     }
 
@@ -72,5 +73,19 @@ public class Teacherdb {
         }
 
         return studentList;
+    }
+
+    public String[] getCourseNameArray(string courseId) {
+        List<Course> course = getCourseList(courseId);
+        String[] courseName = new String[course.size()];
+
+        int length = course.size();
+
+        for (int i = 0; i < lenth; i++) {
+            courseName[i] = course[i].getName();
+        }
+
+        return courseName;
+
     }
 }

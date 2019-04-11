@@ -1,7 +1,11 @@
 package gui.teacher;
 
 import gui.components.*;
+import dbfunctions.Coursedb;
+import dbfunctions.Teacherdb;
+import classes.Course;
 
+import java.util.List;
 import javax.swing.*;
 import java.awt.event.*;
 import java.awt.*;
@@ -10,13 +14,14 @@ public class TeacherHome extends JFrame implements ActionListener {
 
     private JLabel navBar, welcome, title, subTitle;
     private JButton addCourse, requests, homeButton, backButton;
+    private JComboBox courseList;
 
     private JPanel panel;
     // Components
     private MyColor color;
     private MyFont font;
 
-    public TeacherHome(String name) {
+    public TeacherHome(String name, String ID) {
 
         super(name + "'s Home");
 
@@ -41,7 +46,20 @@ public class TeacherHome extends JFrame implements ActionListener {
         welcome.setBounds(700, 10, 200, 25);
         panel.add(welcome);
 
-        addCourse = new JButton("ADD Course");
+        List<Course> course = Coursedb.getCourseList(ID);
+        course.forEach((c) -> {
+            System.out.println(c.getId());
+            System.out.println(c.getName());
+            System.out.println(c.getTeacherId());
+            c.getName()
+
+            
+        });
+        
+        courseList = new JComboBox();
+
+
+        addCourse = new JButton(ID);
         addCourse.setBounds(100, 200, 200, 30);
         panel.add(addCourse);
 
