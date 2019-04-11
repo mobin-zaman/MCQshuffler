@@ -1,23 +1,25 @@
+package student;
+
 import java.lang.*;
 import javax.swing.*;
 
-public class StudentLogin extends JFrame {
-    private JLabel usernameLabel, passwordLabel;
-    private JTextField usernameField;
+public class StudentSignup extends JFrame {
+    private JLabel usernameLabel, passwordLabel, email;
+    private JTextField usernameField, emailField;
     private JPasswordField passwordField;
     private JButton loginButton, signupButton;
     private JPanel panel;
 
-    public StudentLogin() {
+    public StudentSignup() {
 
-        super("Faculty Login");
+        super("Student Signup");
         this.setSize(800, 500);
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 
         panel = new JPanel();
         panel.setLayout(null);
 
-        usernameLabel = new JLabel("Username: ");
+        usernameLabel = new JLabel("username: ");
         usernameLabel.setBounds(150, 110, 100, 30);
         panel.add(usernameLabel);
 
@@ -33,12 +35,20 @@ public class StudentLogin extends JFrame {
         passwordField.setBounds(250, 170, 100, 30);
         panel.add(passwordField);
 
-        loginButton = new JButton("Login");
-        loginButton.setBounds(150, 250, 80, 30);
+        email = new JLabel("Email: ");
+        email.setBounds(150, 240, 100, 30);
+        panel.add(email);
+
+        emailField = new JTextField();
+        emailField.setBounds(250, 240, 100, 30);
+        panel.add(emailField);
+
+        loginButton = new JButton("Sign up");
+        loginButton.setBounds(150, 300, 80, 30);
         panel.add(loginButton);
 
-        signupButton = new JButton("Sign up");
-        signupButton.setBounds(250, 250, 80, 30);
+        signupButton = new JButton("Log in");
+        signupButton.setBounds(250, 300, 80, 30);
         panel.add(signupButton);
 
         this.add(panel);

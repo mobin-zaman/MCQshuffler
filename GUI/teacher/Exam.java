@@ -1,37 +1,37 @@
-import java.lang.*;
+package teacher;
+
 import javax.swing.*;
 
-public class Course extends JFrame {
-
+public class Exam extends JFrame {
     private JLabel questionList, sampleQues;
     private JButton examButton, studentButton;
 
     private JPanel panel;
 
-    public Course() {
+    public Exam() {
 
-        super("single course");
+        super("Exam");
         this.setSize(800, 500);
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 
         panel = new JPanel();
         panel.setLayout(null);
 
-        questionList = new JLabel("Question List ");
+        questionList = new JLabel("Avaibale Exams");
         questionList.setBounds(380, 50, 150, 30);
         panel.add(questionList);
 
-        examButton = new JButton("Create Exam");
+        examButton = new JButton("Marks");
         examButton.setBounds(100, 100, 150, 30);
         panel.add(examButton);
 
-        studentButton = new JButton("Avaiable Students");
+        studentButton = new JButton("Create Exam");
         studentButton.setBounds(100, 300, 150, 30);
         panel.add(studentButton);
 
         // List of questions will be here
 
-        sampleQues = new JLabel("Question01. hahaahahahahahahahahahahaahaha");
+        sampleQues = new JLabel("Exam. hahaahahahahahahahahahahaahaha");
         sampleQues.setBounds(380, 100, 500, 20);
         panel.add(sampleQues);
 
