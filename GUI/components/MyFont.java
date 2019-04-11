@@ -1,6 +1,7 @@
-package components;
+package gui.components;
 
 import java.awt.*;
+import java.lang.*;
 
 public class MyFont {
 

@@ -18,7 +18,7 @@ public class DB {
         System.out.println("db driver loaded");
 
         try {
-            connection = DriverManager.getConnection(dbproperty.url(), dbproperty.username(), dbproperty.password());
+            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/mcq?useSSL=false", "root", "");
         } catch (Exception e) {
             System.out.println("exception in DB constructor: " + e);
         }

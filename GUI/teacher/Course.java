@@ -1,6 +1,5 @@
 package teacher;
 
-
 import java.lang.*;
 import javax.swing.*;
 

@@ -10,7 +10,8 @@ public class DatabaseProperty {
     public DatabaseProperty() {
         // initiate fileInputStream
         try {
-            fileInputStream = new FileInputStream("/home/nsssayom/Desktop/MCQshuffler/config.properties");
+            fileInputStream = new FileInputStream(
+                    "C:/Users/Sadat\\ Jubayer/OneDrive/Projects/MCQshuffler/MCQshuffler/config.properties");
         } catch (Exception e) {
             System.out.println("exception: " + e);
         }
@@ -36,6 +37,5 @@ public class DatabaseProperty {
     public String url() {
         return properties.getProperty("url");
     }
-
 
 }

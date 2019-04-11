@@ -1,6 +1,6 @@
-package teacher;
+package gui.teacher;
 
-import components.*;
+import gui.components.*;
 
 import javax.swing.*;
 import java.awt.event.*;

@@ -1,6 +1,9 @@
-package teacher;
+package gui.teacher;
 
-import components.*;
+import dbfunctions.*;
+
+import gui.components.MyColor;
+import gui.components.MyFont;
 
 import java.awt.Color;
 import java.awt.event.*;
@@ -24,6 +27,10 @@ public class TeacherLogin extends JFrame implements ActionListener, MouseListene
     public TeacherLogin() {
 
         super("Teacher Login");
+
+        if (!Teacherdb.login("sadat", "123")) {
+            System.out.println(123);
+        }
 
         color = new MyColor();
         font = new MyFont();
@@ -125,6 +132,7 @@ public class TeacherLogin extends JFrame implements ActionListener, MouseListene
                 String pass = passwordField.getText();
 
                 // Database checking here
+
                 if (name.equals("sadat") && pass.equals("1234")) {
                     dispose();
                     TeacherHome teacherHome = new TeacherHome(name);

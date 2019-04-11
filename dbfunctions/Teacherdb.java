@@ -27,8 +27,8 @@ public class Teacherdb {
         }
 
         if (teacher == null) {
-            System.out.println("teacher not available");
-            GP.setProperty("teacherId", "-1");
+            // System.out.println("teacher not available");
+            // GP.setProperty("teacherId", "-1");
             return false;
         }
 

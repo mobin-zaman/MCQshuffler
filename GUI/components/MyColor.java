@@ -1,4 +1,4 @@
-package components;
+package gui.components;
 
 import java.lang.*;
 import java.awt.*;
