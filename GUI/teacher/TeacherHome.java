@@ -10,21 +10,30 @@ import javax.swing.*;
 import java.awt.event.*;
 import java.awt.*;
 
-public class TeacherHome extends JFrame implements ActionListener {
+public class TeacherHome extends JFrame implements ActionListener, MouseListener {
 
-    private JLabel navBar, welcome, title, subTitle;
-    private JButton addCourse, requests, homeButton, backButton;
-    private JComboBox courseList;
+    private JLabel navBar, boxOne, boxTwo, welcome, title, studentNumber, questionNumber, num1, num2;
+    private JButton addCourse, logoutButton, courseName, goToButton, deleteButton;
 
     private JPanel panel;
+    private String teacherId, teacherName;
+    private int courseId;
+    private String theCourse;
+
+    private List<Course> course;
+
     // Components
     private MyColor color;
     private MyFont font;
+
+    private JList courseList;
 
     public TeacherHome(String name, String ID) {
 
         super(name + "'s Home");
 
+        teacherName = name;
+        teacherId = ID;
         // UI Elements
         this.setSize(1000, 700);
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -35,56 +44,125 @@ public class TeacherHome extends JFrame implements ActionListener {
         color = new MyColor();
         font = new MyFont();
 
+        // Navbar
+
+        welcome = new JLabel("Welcome, " + name);
+        welcome.setFont(font.getMediumFont());
+        welcome.setForeground(color.getBgColor());
+        welcome.setBounds(40, 18, 400, 25);
+        panel.add(welcome);
+
+        logoutButton = new JButton("Logout");
+        logoutButton.setFont(font.getprimaryFont());
+        logoutButton.setBackground(color.getsecondaryButtonColor());
+        logoutButton.setForeground(color.getBgColor());
+        logoutButton.setFocusPainted(false);
+        logoutButton.setBounds(850, 13, 100, 35);
+        panel.add(logoutButton);
+
         navBar = new JLabel();
         navBar.setOpaque(true);
         navBar.setBackground(color.getNavbarColor());
         navBar.setBounds(5, 5, 975, 50);
         panel.add(navBar);
 
-        welcome = new JLabel("Welcome, " + name);
-        welcome.setFont(font.getprimaryFont());
-        welcome.setBounds(700, 10, 200, 25);
-        panel.add(welcome);
+        // Buttons
 
-        List<Course> course = Coursedb.getCourseList(ID);
-        course.forEach((c) -> {
-            System.out.println(c.getId());
-            System.out.println(c.getName());
-            System.out.println(c.getTeacherId());
-            c.getName()
+        addCourse = new JButton("ADD Course");
 
-            
-        });
-        
-        courseList = new JComboBox();
-
-
-        addCourse = new JButton(ID);
-        addCourse.setBounds(100, 200, 200, 30);
+        addCourse.setFont(font.getMediumFont());
+        addCourse.setBackground(color.getButtonColor());
+        addCourse.setForeground(color.getBgColor());
+        addCourse.setFocusPainted(false);
+        addCourse.setBounds(40, 70, 200, 50);
+        addCourse.addActionListener(this);
         panel.add(addCourse);
 
-        requests = new JButton("Students' Requests");
-        requests.setBounds(100, 300, 200, 30);
-        panel.add(requests);
+        title = new JLabel("Your Courses:");
+        title.setFont(font.getprimaryFont());
+        title.setBounds(40, 125, 120, 25);
+        panel.add(title);
 
-        subTitle = new JLabel("marakha");
-        subTitle.setBounds(500, 80, 200, 30);
-        panel.add(subTitle);
+        // Texts
 
-        homeButton = new JButton("Back");
-        homeButton.setBounds(250, 350, 80, 30);
-        panel.add(homeButton);
+        studentNumber = new JLabel("Students");
+        studentNumber.setFont(font.getBigFont());
+        studentNumber.setForeground(color.getBgColor());
+        studentNumber.setBounds(410, 150, 250, 50);
+        panel.add(studentNumber);
 
-        backButton = new JButton("Home");
-        backButton.setBounds(400, 350, 80, 30);
-        panel.add(backButton);
+        num1 = new JLabel();
+        num1.setText("00");
+        num1.setFont(font.getBigBigFont());
+        num1.setForeground(color.getBgColor());
+        num1.setBounds(390, 110, 400, 400);
+        panel.add(num1);
+
+        questionNumber = new JLabel("Questions");
+        questionNumber.setFont(font.getBigFont());
+        questionNumber.setForeground(color.getBgColor());
+        questionNumber.setBounds(685, 150, 250, 50);
+        panel.add(questionNumber);
+
+        num2 = new JLabel();
+        num2.setText("00");
+        num2.setFont(font.getBigBigFont());
+        num2.setForeground(color.getBgColor());
+        num2.setBounds(690, 110, 400, 400);
+        panel.add(num2);
+
+        // Boxes
+
+        boxOne = new JLabel();
+        boxOne.setOpaque(true);
+        boxOne.setBackground(color.gettBackgroundColor());
+        boxOne.setBounds(360, 150, 290, 300);
+        panel.add(boxOne);
+
+        boxTwo = new JLabel();
+        boxTwo.setOpaque(true);
+        boxTwo.setBackground(color.gettBackgroundColor());
+        boxTwo.setBounds(660, 150, 290, 300);
+        panel.add(boxTwo);
+
+        // Combobox
+        List<Course> course = Coursedb.getCourseList(ID);
+
+        int length = course.size();
+        String courseName[] = new String[length];
+        int i = 0;
+        for (Course c : course) {
+            courseName[i] = c.getName();
+            i++;
+        }
+        courseList = new JList(courseName);
+        courseList.setFont(font.getMediumFont());
+        courseList.setForeground(color.getTextColor());
+        courseList.setBounds(40, 150, 300, 450);
+        courseList.addMouseListener(this);
+
+        panel.add(courseList);
+
+        goToButton = new JButton("Go to Course");
+        goToButton.setBounds(360, 500, 400, 50);
+        goToButton.setFont(font.getprimaryFont());
+        goToButton.setForeground(color.getBgColor());
+        goToButton.setBackground(color.getButtonColor());
+        goToButton.setFocusPainted(false);
+        goToButton.addActionListener(this);
+        panel.add(goToButton);
+
+        deleteButton = new JButton("Delete Course");
+        deleteButton.setBounds(800, 500, 100, 50);
+        deleteButton.setFont(font.getprimaryFont());
+        deleteButton.setForeground(color.getBgColor());
+        deleteButton.setBackground(color.getDelteButtonColor());
+        deleteButton.addActionListener(this);
+        panel.add(deleteButton);
 
         this.add(panel);
 
-        // Listerners
-
-        homeButton.addActionListener(this);
-        backButton.addActionListener(this);
+        // backButton.addActionListener(this);
 
     }
 
@@ -93,15 +171,59 @@ public class TeacherHome extends JFrame implements ActionListener {
     }
 
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == backButton) {
+        if (e.getSource() == addCourse) {
             this.dispose();
-            TeacherLogin f = new TeacherLogin();
+            AddCourse f = new AddCourse(theCourse, teacherId);
             f.setLocationRelativeTo(null);
             f.setVisible(true);
-        } else if (e.getSource() == homeButton) {
-            // Home(this);
+
+        } else if (e.getSource() == goToButton) {
+
+            dispose();
+            CoursePage cc = new CoursePage(theCourse, courseId);
+            cc.setLocationRelativeTo(null);
+            cc.setVisible(true);
+
         }
 
+    }
+
+    public void mouseClicked(MouseEvent e) {
+
+        // String str2 = "123";
+        if (e.getSource() == courseList) {
+
+            int selected = courseList.getSelectedIndex();
+
+            // System.out.println(selected);
+
+            List<Course> c = Coursedb.getCourseList(teacherId);
+
+            int indice = c.get(selected).getId();
+            courseId = indice;
+            theCourse = c.get(selected).getName();
+            String str = Coursedb.getNumberOfStudents(indice);
+            num1.setText(str);
+
+            String str2 = Coursedb.getNumberOfQuestions(indice);
+            num2.setText(str2);
+
+        } else {
+
+        }
+
+    }
+
+    public void mousePressed(MouseEvent e) {
+    }
+
+    public void mouseReleased(MouseEvent e) {
+    }
+
+    public void mouseEntered(MouseEvent e) {
+    }
+
+    public void mouseExited(MouseEvent e) {
     }
 
 }

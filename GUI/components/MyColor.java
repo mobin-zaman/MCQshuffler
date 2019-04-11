@@ -11,6 +11,10 @@ public class MyColor {
 	private Color secondaryHoverColor;
 	private Color textColor;
 	private Color navBarColor;
+	private Color titleBarColor;
+	private Color editButtonColor;
+	private Color deleteButtonColor;
+	private Color tBackgroundColor;
 
 	public MyColor() {
 		bgColor = new Color(255, 255, 255);
@@ -19,7 +23,12 @@ public class MyColor {
 		secondaryHoverColor = new Color(179, 57, 57);
 		textColor = new Color(116, 116, 116);
 		secondaryButtonColor = new Color(255, 82, 82);
-		navBarColor = new Color(209, 204, 192);
+		navBarColor = new Color(44, 58, 71);
+		titleBarColor = new Color(24, 44, 97);
+		editButtonColor = new Color(0, 184, 148);
+		deleteButtonColor = new Color(214, 48, 49);
+
+		tBackgroundColor = new Color(112, 111, 211, 80);
 
 	}
 
@@ -49,5 +58,21 @@ public class MyColor {
 
 	public Color getNavbarColor() {
 		return this.navBarColor;
+	}
+
+	public Color gettitleBarColor() {
+		return this.titleBarColor;
+	}
+
+	public Color getEditButtonColor() {
+		return this.editButtonColor;
+	}
+
+	public Color getDelteButtonColor() {
+		return this.deleteButtonColor;
+	}
+
+	public Color gettBackgroundColor() {
+		return this.tBackgroundColor;
 	}
 }

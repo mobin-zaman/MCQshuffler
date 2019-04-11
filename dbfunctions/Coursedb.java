@@ -5,6 +5,9 @@ import database.*;
 import java.util.*;
 import org.apache.commons.dbutils.*;
 import org.apache.commons.dbutils.handlers.*;
+import org.apache.commons.dbutils.handlers.BeanListHandler;
+import java.util.*;
+import classes.*;
 
 public class Coursedb {
 
@@ -14,9 +17,19 @@ public class Coursedb {
         try {
             db.run.update(db.getConn(), sql, description, teacherId);
         } catch (Exception e) {
-            System.out.println(e);
+            System.out.println("insertCourse(): " + e);
         }
 
+    }
+
+    public static void deleteCourse(int courseId) {
+        DB db = DB.getDB();
+        String sql = "DELETE FROM course WHERE id=?";
+        try {
+            db.run.update(db.getConn(), sql, courseId);
+        } catch (Exception e) {
+            System.out.println("Delete course: " + e);
+        }
     }
 
     // general query functions for all the functions here
@@ -33,6 +46,7 @@ public class Coursedb {
 
         return course;
     }
+
     // kept for future reference
     // List<Course> course = Coursedb.getCourseList(GP.getProperty("teacherId"));
     // course.forEach((c) -> {
@@ -40,6 +54,18 @@ public class Coursedb {
     // System.out.println(c.getName());
     // System.out.println(c.getTeacherId());
     // });
+    // public static String[] getCourseNameArray(String courseId) {
+    // List<Course> course = getCourseList(courseId);
+    // ArrayList<String> courseName = null;
+
+    // for (Course c : course) {
+    // courseName.add(c.getName());
+    // }
+
+    // Object[] arr = courseName.toArray();
+    // String[] str = (String) arr;
+    // return str;
+    // }
 
     public static List<Course> getCourseList(String teacherId) {
 
@@ -57,6 +83,91 @@ public class Coursedb {
         String sql = "SELECT * FROM course WHERE id IN(SELECT courseId FROM course_student WHERE studentId=?)";
         return query(sql, studentId);
 
+    }
+
+    public static String getNumberOfStudents(int courseId) {
+
+        DB db = DB.getDB();
+
+        String sql = "SELECT * FROM course_student WHERE courseId=?";
+
+        List<Course> courseList = null;
+
+        ResultSetHandler<List<Course>> resultSetHandler = new BeanListHandler<Course>(Course.class);
+
+        try {
+            courseList = db.run.query(db.getConn(), sql, resultSetHandler, courseId);
+        } catch (Exception e) {
+            System.out.println("getNumberOfStudent: " + e);
+        }
+        int length = courseList.size();
+
+        String numberOfStudents = "0";
+        if (length < 10) {
+            numberOfStudents = numberOfStudents + Integer.toString((courseList.size()));
+        } else {
+            numberOfStudents = Integer.toString(courseList.size());
+        }
+        return numberOfStudents;
+    }
+
+    public static String getNumberOfQuestions(int courseId) {
+
+        DB db = DB.getDB();
+
+        String sql = "SELECT * FROM question WHERE courseId=?";
+
+        List<Question> questionList = null;
+
+        ResultSetHandler<List<Question>> resultSetHandler = new BeanListHandler<Question>(Question.class);
+
+        try {
+            questionList = db.run.query(db.getConn(), sql, resultSetHandler, new Integer(courseId).toString());
+        } catch (Exception e) {
+            System.out.println("getNumberOfStudent: " + e);
+        }
+        int length = questionList.size();
+        String numberOfQuestion = "0";
+        if (length < 10) {
+            numberOfQuestion = numberOfQuestion + Integer.toString(questionList.size());
+        } else {
+            numberOfQuestion = Integer.toString((questionList.size()));
+        }
+        return numberOfQuestion;
+    }
+
+    public static List<Student> getEnrolledStudentList(int courseId) {
+        DB db = DB.getDB();
+
+        String sql = "SELECT * FROM student WHERE id IN(SELECT studentId FROM course_student WHERE courseId=?";
+        List<Student> studentList = null;
+
+        ResultSetHandler<List<Student>> resultSetHandler = new BeanListHandler<Student>(Student.class);
+
+        try {
+            studentList = db.run.query(db.getConn(), sql, resultSetHandler, courseId);
+        } catch (Exception e) {
+            System.out.println("getStudentList: " + e);
+        }
+
+        return studentList;
+    }
+
+    public static List<Student> getRequestStudentList(int courseId) {
+        DB db = DB.getDB();
+
+        String sql = "SELECT * FROM student WHERE id IN(SELECT studentId FROM request WHERE courseId=? AND isRejected=0 AND isAccepted=0)";
+        List<Student> studentList = null;
+
+        ResultSetHandler<List<Student>> resultSetHandler = new BeanListHandler<Student>(Student.class);
+
+        try {
+            studentList = db.run.query(db.getConn(), sql, resultSetHandler, courseId);
+        } catch (Exception e) {
+            System.out.println("getStudentList: " + e);
+        }
+
+        return studentList;
     }
 
 }

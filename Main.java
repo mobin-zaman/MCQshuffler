@@ -4,7 +4,7 @@ import java.sql.SQLException;
 import java.util.*;
 
 import gui.teacher.*;
-import classes.*;
+import classes.Course;
 import dbfunctions.*;
 import database.*;
 
@@ -23,10 +23,15 @@ public class Main {
         // System.out.println(c.getName());
         // System.out.println(c.getTeacherId());
         // });
+        // List<Course> course = Coursedb.getCourseList("1");
+        // String str = Coursedb.getNumberOfQuestions(course.get(0).getId());
 
+        // System.out.println(str);
         TeacherLogin fl = new TeacherLogin();
         fl.setLocationRelativeTo(null);
         fl.setVisible(true);
+
+        // Coursedb.deleteCourse(3);
 
         // ResultSetHandler <List<Question>> resultSetHandler=new
         // BeanListHandler<Question>(Question.class);

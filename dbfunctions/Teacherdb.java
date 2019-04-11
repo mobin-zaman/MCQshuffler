@@ -7,7 +7,9 @@ import java.util.prefs.Preferences;
 
 import org.apache.commons.dbutils.ResultSetHandler;
 import org.apache.commons.dbutils.handlers.*;
+import org.apache.commons.dbutils.handlers.BeanListHandler;
 
+import classes.Question;
 import classes.Student;
 import classes.Teacher;
 
@@ -75,17 +77,4 @@ public class Teacherdb {
         return studentList;
     }
 
-    public String[] getCourseNameArray(string courseId) {
-        List<Course> course = getCourseList(courseId);
-        String[] courseName = new String[course.size()];
-
-        int length = course.size();
-
-        for (int i = 0; i < lenth; i++) {
-            courseName[i] = course[i].getName();
-        }
-
-        return courseName;
-
-    }
 }
