@@ -2,10 +2,10 @@
 -- version 4.6.6deb5
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost:3306
--- Generation Time: Apr 05, 2019 at 03:23 AM
--- Server version: 5.7.25-0ubuntu0.18.04.2
--- PHP Version: 7.2.15-0ubuntu0.18.04.2
+-- হোষ্ট: localhost:3306
+-- তৈরী করতে ব্যবহৃত সময়: এপ্রি 11, 2019 at 05:24 AM
+-- সার্ভার সংস্করন: 5.7.25-0ubuntu0.18.04.2
+-- পিএইছপির সংস্করন: 7.2.15-0ubuntu0.18.04.2
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -17,13 +17,13 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `mcq`
+-- ডাটাবেইজ: `mcq`
 --
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `course`
+-- টেবলের জন্য টেবলের গঠন `course`
 --
 
 CREATE TABLE `course` (
@@ -33,7 +33,7 @@ CREATE TABLE `course` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `course`
+-- টেবলের জন্য তথ্য স্তুপ করছি `course`
 --
 
 INSERT INTO `course` (`id`, `name`, `teacherId`) VALUES
@@ -43,7 +43,19 @@ INSERT INTO `course` (`id`, `name`, `teacherId`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `exam`
+-- টেবলের জন্য টেবলের গঠন `course_student`
+--
+
+CREATE TABLE `course_student` (
+  `id` int(100) NOT NULL,
+  `courseId` int(100) NOT NULL,
+  `studentId` int(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- টেবলের জন্য টেবলের গঠন `exam`
 --
 
 CREATE TABLE `exam` (
@@ -53,7 +65,7 @@ CREATE TABLE `exam` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `exam`
+-- টেবলের জন্য তথ্য স্তুপ করছি `exam`
 --
 
 INSERT INTO `exam` (`id`, `courseId`, `Description`) VALUES
@@ -74,7 +86,7 @@ INSERT INTO `exam` (`id`, `courseId`, `Description`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `exam_question`
+-- টেবলের জন্য টেবলের গঠন `exam_question`
 --
 
 CREATE TABLE `exam_question` (
@@ -84,7 +96,7 @@ CREATE TABLE `exam_question` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `exam_question`
+-- টেবলের জন্য তথ্য স্তুপ করছি `exam_question`
 --
 
 INSERT INTO `exam_question` (`id`, `examId`, `questionId`) VALUES
@@ -98,7 +110,7 @@ INSERT INTO `exam_question` (`id`, `examId`, `questionId`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `question`
+-- টেবলের জন্য টেবলের গঠন `question`
 --
 
 CREATE TABLE `question` (
@@ -113,7 +125,7 @@ CREATE TABLE `question` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `question`
+-- টেবলের জন্য তথ্য স্তুপ করছি `question`
 --
 
 INSERT INTO `question` (`id`, `courseId`, `description`, `choiceOne`, `choiceTwo`, `choiceThree`, `choiceFour`, `correctChoice`) VALUES
@@ -125,7 +137,21 @@ INSERT INTO `question` (`id`, `courseId`, `description`, `choiceOne`, `choiceTwo
 -- --------------------------------------------------------
 
 --
--- Table structure for table `student`
+-- টেবলের জন্য টেবলের গঠন `request`
+--
+
+CREATE TABLE `request` (
+  `id` int(100) NOT NULL,
+  `courseId` int(100) NOT NULL,
+  `studentId` int(100) NOT NULL,
+  `isAccepted` int(10) NOT NULL,
+  `isRequested` int(10) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- টেবলের জন্য টেবলের গঠন `student`
 --
 
 CREATE TABLE `student` (
@@ -135,7 +161,7 @@ CREATE TABLE `student` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `student`
+-- টেবলের জন্য তথ্য স্তুপ করছি `student`
 --
 
 INSERT INTO `student` (`id`, `name`, `password`) VALUES
@@ -145,7 +171,7 @@ INSERT INTO `student` (`id`, `name`, `password`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `teacher`
+-- টেবলের জন্য টেবলের গঠন `teacher`
 --
 
 CREATE TABLE `teacher` (
@@ -155,7 +181,7 @@ CREATE TABLE `teacher` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `teacher`
+-- টেবলের জন্য তথ্য স্তুপ করছি `teacher`
 --
 
 INSERT INTO `teacher` (`id`, `name`, `password`) VALUES
@@ -163,25 +189,31 @@ INSERT INTO `teacher` (`id`, `name`, `password`) VALUES
 (2, 'menmen', 'menmen');
 
 --
--- Indexes for dumped tables
+-- স্তুপকৃত টেবলের ইনডেক্স
 --
 
 --
--- Indexes for table `course`
+-- টেবিলের ইনডেক্সসমুহ `course`
 --
 ALTER TABLE `course`
   ADD PRIMARY KEY (`id`),
   ADD KEY `teacher_id` (`teacherId`);
 
 --
--- Indexes for table `exam`
+-- টেবিলের ইনডেক্সসমুহ `course_student`
+--
+ALTER TABLE `course_student`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- টেবিলের ইনডেক্সসমুহ `exam`
 --
 ALTER TABLE `exam`
   ADD PRIMARY KEY (`id`),
   ADD KEY `fk_course_exam` (`courseId`);
 
 --
--- Indexes for table `exam_question`
+-- টেবিলের ইনডেক্সসমুহ `exam_question`
 --
 ALTER TABLE `exam_question`
   ADD PRIMARY KEY (`id`),
@@ -189,86 +221,118 @@ ALTER TABLE `exam_question`
   ADD KEY `fk_exam_question_question_id` (`questionId`);
 
 --
--- Indexes for table `question`
+-- টেবিলের ইনডেক্সসমুহ `question`
 --
 ALTER TABLE `question`
   ADD PRIMARY KEY (`id`),
   ADD KEY `fk_course_question` (`courseId`);
 
 --
--- Indexes for table `student`
+-- টেবিলের ইনডেক্সসমুহ `request`
+--
+ALTER TABLE `request`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_request_course` (`courseId`),
+  ADD KEY `fk_request_student` (`studentId`);
+
+--
+-- টেবিলের ইনডেক্সসমুহ `student`
 --
 ALTER TABLE `student`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `teacher`
+-- টেবিলের ইনডেক্সসমুহ `teacher`
 --
 ALTER TABLE `teacher`
   ADD PRIMARY KEY (`id`);
 
 --
--- AUTO_INCREMENT for dumped tables
+-- স্তুপকৃত টেবলের জন্য স্বয়ক্রীয় বর্দ্ধিত মান (AUTO_INCREMENT)
 --
 
 --
--- AUTO_INCREMENT for table `course`
+-- টেবলের জন্য স্বয়ক্রীয় বর্দ্ধিত মান (AUTO_INCREMENT) `course`
 --
 ALTER TABLE `course`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
--- AUTO_INCREMENT for table `exam`
+-- টেবলের জন্য স্বয়ক্রীয় বর্দ্ধিত মান (AUTO_INCREMENT) `course_student`
+--
+ALTER TABLE `course_student`
+  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT;
+--
+-- টেবলের জন্য স্বয়ক্রীয় বর্দ্ধিত মান (AUTO_INCREMENT) `exam`
 --
 ALTER TABLE `exam`
   MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 --
--- AUTO_INCREMENT for table `exam_question`
+-- টেবলের জন্য স্বয়ক্রীয় বর্দ্ধিত মান (AUTO_INCREMENT) `exam_question`
 --
 ALTER TABLE `exam_question`
   MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 --
--- AUTO_INCREMENT for table `question`
+-- টেবলের জন্য স্বয়ক্রীয় বর্দ্ধিত মান (AUTO_INCREMENT) `question`
 --
 ALTER TABLE `question`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 --
--- AUTO_INCREMENT for table `student`
+-- টেবলের জন্য স্বয়ক্রীয় বর্দ্ধিত মান (AUTO_INCREMENT) `request`
+--
+ALTER TABLE `request`
+  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT;
+--
+-- টেবলের জন্য স্বয়ক্রীয় বর্দ্ধিত মান (AUTO_INCREMENT) `student`
 --
 ALTER TABLE `student`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
--- AUTO_INCREMENT for table `teacher`
+-- টেবলের জন্য স্বয়ক্রীয় বর্দ্ধিত মান (AUTO_INCREMENT) `teacher`
 --
 ALTER TABLE `teacher`
   MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
--- Constraints for dumped tables
+-- স্তুপকৃত টেবলের সীমবদ্ধতা
 --
 
 --
--- Constraints for table `course`
+-- টেবলের সীমবদ্ধতা `course`
 --
 ALTER TABLE `course`
   ADD CONSTRAINT `fk_course_teacher` FOREIGN KEY (`teacherId`) REFERENCES `teacher` (`id`);
 
 --
--- Constraints for table `exam`
+-- টেবলের সীমবদ্ধতা `course_student`
+--
+ALTER TABLE `course_student`
+  ADD CONSTRAINT `fk_course_course` FOREIGN KEY (`id`) REFERENCES `course` (`id`),
+  ADD CONSTRAINT `fk_course_student` FOREIGN KEY (`id`) REFERENCES `student` (`id`);
+
+--
+-- টেবলের সীমবদ্ধতা `exam`
 --
 ALTER TABLE `exam`
   ADD CONSTRAINT `fk_course_exam` FOREIGN KEY (`courseId`) REFERENCES `course` (`id`);
 
 --
--- Constraints for table `exam_question`
+-- টেবলের সীমবদ্ধতা `exam_question`
 --
 ALTER TABLE `exam_question`
   ADD CONSTRAINT `fk_exam_question` FOREIGN KEY (`examId`) REFERENCES `exam` (`id`),
   ADD CONSTRAINT `fk_exam_question_question_id` FOREIGN KEY (`questionId`) REFERENCES `question` (`id`);
 
 --
--- Constraints for table `question`
+-- টেবলের সীমবদ্ধতা `question`
 --
 ALTER TABLE `question`
   ADD CONSTRAINT `fk_course_question` FOREIGN KEY (`courseId`) REFERENCES `course` (`id`);
+
+--
+-- টেবলের সীমবদ্ধতা `request`
+--
+ALTER TABLE `request`
+  ADD CONSTRAINT `fk_request_course` FOREIGN KEY (`courseId`) REFERENCES `course` (`id`),
+  ADD CONSTRAINT `fk_request_student` FOREIGN KEY (`studentId`) REFERENCES `student` (`id`);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
