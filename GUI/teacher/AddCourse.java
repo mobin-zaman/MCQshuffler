@@ -1,4 +1,5 @@
-import java.lang.*;
+package teacher;
+
 import javax.swing.*;
 
 public class AddCourse extends JFrame {
