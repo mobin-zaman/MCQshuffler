@@ -37,4 +37,5 @@ public class DatabaseProperty {
         return properties.getProperty("url");
     }
 
+
 }
