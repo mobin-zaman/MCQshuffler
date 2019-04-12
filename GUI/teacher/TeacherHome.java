@@ -7,6 +7,8 @@ import classes.Course;
 
 import javax.swing.border.EmptyBorder;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
+
 import javax.swing.*;
 import java.awt.event.*;
 import java.awt.*;
@@ -59,6 +61,7 @@ public class TeacherHome extends JFrame implements ActionListener, MouseListener
         logoutButton.setForeground(color.getBgColor());
         logoutButton.setFocusPainted(false);
         logoutButton.setBounds(850, 13, 100, 35);
+        logoutButton.addActionListener(this);
         panel.add(logoutButton);
 
         navBar = new JLabel();
@@ -80,8 +83,8 @@ public class TeacherHome extends JFrame implements ActionListener, MouseListener
         panel.add(addCourse);
 
         title = new JLabel("Your Courses:");
-        title.setFont(font.getprimaryFont());
-        title.setBounds(40, 125, 120, 25);
+        title.setFont(font.getTinyFont());
+        title.setBounds(150, 125, 120, 25);
         panel.add(title);
 
         // Texts
@@ -89,27 +92,27 @@ public class TeacherHome extends JFrame implements ActionListener, MouseListener
         studentNumber = new JLabel("Students");
         studentNumber.setFont(font.getBigFont());
         studentNumber.setForeground(color.getBgColor());
-        studentNumber.setBounds(410, 150, 250, 50);
+        studentNumber.setBounds(420, 380, 250, 50);
         panel.add(studentNumber);
 
         num1 = new JLabel();
         num1.setText("00");
         num1.setFont(font.getBigBigFont());
         num1.setForeground(color.getBgColor());
-        num1.setBounds(390, 110, 400, 400);
+        num1.setBounds(390, 70, 400, 400);
         panel.add(num1);
 
         questionNumber = new JLabel("Questions");
         questionNumber.setFont(font.getBigFont());
         questionNumber.setForeground(color.getBgColor());
-        questionNumber.setBounds(685, 150, 250, 50);
+        questionNumber.setBounds(720, 380, 250, 50);
         panel.add(questionNumber);
 
         num2 = new JLabel();
         num2.setText("00");
         num2.setFont(font.getBigBigFont());
         num2.setForeground(color.getBgColor());
-        num2.setBounds(690, 110, 400, 400);
+        num2.setBounds(700, 70, 400, 400);
         panel.add(num2);
 
         // Boxes
@@ -155,7 +158,7 @@ public class TeacherHome extends JFrame implements ActionListener, MouseListener
         panel.add(goToButton);
 
         deleteButton = new JButton("Delete Course");
-        deleteButton.setBounds(800, 500, 100, 50);
+        deleteButton.setBounds(780, 500, 170, 50);
         deleteButton.setFont(font.getprimaryFont());
         deleteButton.setForeground(color.getBgColor());
         deleteButton.setBackground(color.getDelteButtonColor());
@@ -181,10 +184,16 @@ public class TeacherHome extends JFrame implements ActionListener, MouseListener
 
         } else if (e.getSource() == goToButton) {
 
-            dispose();
+            this.dispose();
             CoursePage cc = new CoursePage(theCourse, courseId);
             cc.setLocationRelativeTo(null);
             cc.setVisible(true);
+
+        } else if (e.getSource() == logoutButton) {
+            this.dispose();
+            TeacherLogin tg = new TeacherLogin();
+            tg.setLocationRelativeTo(null);
+            tg.setVisible(true);
 
         }
 
@@ -223,6 +232,14 @@ public class TeacherHome extends JFrame implements ActionListener, MouseListener
     }
 
     public void mouseEntered(MouseEvent e) {
+        try {
+            // print something here
+            Thread.sleep(3000); // sleep for 3 seconds
+            // print something else here
+            addCourse.setText("Kuttarbassa");
+        } catch (InterruptedException ea) {
+            System.out.println("got interrupted!");
+        }
     }
 
     public void mouseExited(MouseEvent e) {

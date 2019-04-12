@@ -11,13 +11,15 @@ public class MyFont {
     private Font mediumFont;
     private Font bigFont;
     private Font bigBigFont;
+    private Font tinyFont;
 
     public MyFont() {
 
         primaryFont = new Font("Roboto", Font.PLAIN, 18);
         mediumFont = new Font("Roboto", Font.PLAIN, 21);
         headerFont = new Font("Roboto", Font.PLAIN, 25);
-        smallFont = new Font("Roboto", Font.PLAIN, 14);
+        smallFont = new Font("Roboto", Font.PLAIN, 16);
+        tinyFont = new Font("Roboto", Font.PLAIN, 10);
         bigFont = new Font("Roboto", Font.PLAIN, 40);
         bigBigFont = new Font("Roboto", Font.PLAIN, 200);
     }
@@ -44,6 +46,10 @@ public class MyFont {
 
     public Font getBigBigFont() {
         return this.bigBigFont;
+    }
+
+    public Font getTinyFont() {
+        return this.tinyFont;
     }
 
 }
