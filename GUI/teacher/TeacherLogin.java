@@ -19,6 +19,8 @@ public class TeacherLogin extends JFrame implements ActionListener, MouseListene
     private JSeparator separator;
     private JOptionPane errorMessage, errorPane;
 
+    private Color myColor;
+
     // Components
     private MyColor color;
     private MyFont font;
@@ -35,7 +37,10 @@ public class TeacherLogin extends JFrame implements ActionListener, MouseListene
         this.setSize(1000, 700);
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         panel = new JPanel();
-        panel.setBackground(color.getBgColor());
+        myColor = new Color(48, 95, 114, 40);
+        // panel.setBackground(color.getBgColor());
+        panel.setOpaque(false);
+        panel.setBackground(myColor);
         panel.setLayout(null);
 
         // Toggle Button for Dark and Night mode

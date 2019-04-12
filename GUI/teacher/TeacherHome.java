@@ -15,7 +15,7 @@ import java.awt.*;
 
 public class TeacherHome extends JFrame implements ActionListener, MouseListener {
 
-    private JLabel navBar, boxOne, boxTwo, welcome, title, studentNumber, questionNumber, num1, num2;
+    private JLabel navBar, boxOne, boxTwo, welcome, title, studentNumber, questionNumber, num1, num2, loginSuccess;
     private JButton addCourse, logoutButton, courseName, goToButton, deleteButton;
 
     private JPanel panel;
@@ -88,6 +88,12 @@ public class TeacherHome extends JFrame implements ActionListener, MouseListener
         panel.add(title);
 
         // Texts
+
+        loginSuccess = new JLabel("You have successfully Logged in");
+        loginSuccess.setFont(font.getMediumFont());
+        loginSuccess.setForeground(color.getNavbarColor());
+        loginSuccess.setBounds(580, 90, 400, 25);
+        panel.add(loginSuccess);
 
         studentNumber = new JLabel("Students");
         studentNumber.setFont(font.getBigFont());
@@ -232,14 +238,14 @@ public class TeacherHome extends JFrame implements ActionListener, MouseListener
     }
 
     public void mouseEntered(MouseEvent e) {
-        try {
-            // print something here
-            Thread.sleep(3000); // sleep for 3 seconds
-            // print something else here
-            addCourse.setText("Kuttarbassa");
-        } catch (InterruptedException ea) {
-            System.out.println("got interrupted!");
-        }
+        // try {
+        // // print something here
+        // Thread.sleep(3000); // sleep for 3 seconds
+        // // print something else here
+        // loginSuccess.setText("");
+        // } catch (InterruptedException ea) {
+        // System.out.println("got interrupted!");
+        // }
     }
 
     public void mouseExited(MouseEvent e) {
