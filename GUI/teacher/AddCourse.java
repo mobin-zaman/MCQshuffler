@@ -123,9 +123,9 @@ public class AddCourse extends JFrame implements ActionListener {
 
         } else if (e.getSource() == backButton) {
             dispose();
-            TeacherHome teacherHome = new TeacherHome(teacherName, teacherId);
-            teacherHome.setLocationRelativeTo(null);
-            teacherHome.setVisible(true);
+            ExamPage ExamPage = new ExamPage(teacherName, 25);
+            ExamPage.setLocationRelativeTo(null);
+            ExamPage.setVisible(true);
         } else {
 
         }

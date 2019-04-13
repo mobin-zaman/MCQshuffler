@@ -1,13 +1,12 @@
 package dbfunctions;
 
-import classes.Course;
-import database.*;
+import classes.*;
 import java.util.*;
+import database.*;
 import org.apache.commons.dbutils.*;
 import org.apache.commons.dbutils.handlers.*;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
 import java.util.*;
-import classes.*;
 
 public class Coursedb {
 
@@ -73,13 +72,14 @@ public class Coursedb {
         return query(sql, teacherId);
 
     }
-    //function intended to be used in studentdb
+
+    // function intended to be used in studentdb
     public static List<Course> getOfferedCourseList(String studentId) {
         String sql = "SELECT * FROM course WHERE id NOT IN(SELECT courseId FROM course_student WHERE studentId=?)";
         return query(sql, studentId);
     }
 
-    //functoin intended to be used in teacherdb
+    // functoin intended to be used in teacherdb
     public static List<Course> getEnrolledCourseList(String studentId) {
         String sql = "SELECT * FROM course WHERE id IN(SELECT courseId FROM course_student WHERE studentId=?)";
         return query(sql, studentId);
@@ -121,11 +121,12 @@ public class Coursedb {
         List<Question> questionList = null;
 
         ResultSetHandler<List<Question>> resultSetHandler = new BeanListHandler<Question>(Question.class);
+        String param = Integer.toString(courseId);
 
         try {
-            questionList = db.run.query(db.getConn(), sql, resultSetHandler, new Integer(courseId).toString());
+            questionList = db.run.query(db.getConn(), sql, resultSetHandler, param);
         } catch (Exception e) {
-            System.out.println("getNumberOfStudent: " + e);
+            System.out.println("getNumberOfQuestion: " + e);
         }
         int length = questionList.size();
         String numberOfQuestion = "0";

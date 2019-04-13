@@ -12,9 +12,15 @@ public class AddQuestion extends JFrame implements ActionListener {
 
     private String teacherName, teacherId;
 
+    private int courseId;
+
     private JLabel ques, choice1, choice2, choice3, choice4, headerOne, navBar, welcome;
     private JTextField quesField, choice1Field, choice2Field, choice3Field, choice4Field;
     private JButton addQuestionButton, backButton;
+
+    private JCheckBox checkOne, checkTwo, checkThree, checkFour;
+    private ButtonGroup boxCombo;
+
     private JPanel panel;
     private JOptionPane errorMessage, errorPane, successPane;
 
@@ -24,12 +30,13 @@ public class AddQuestion extends JFrame implements ActionListener {
 
     JToggleButton toggleButton;
 
-    public AddQuestion(String name, String ID) {
+    public AddQuestion(String name, String ID, int cId) {
 
         super("Add Question");
 
         teacherName = name;
         teacherId = ID;
+        courseId = cId;
 
         color = new MyColor();
         font = new MyFont();
@@ -127,6 +134,34 @@ public class AddQuestion extends JFrame implements ActionListener {
         choice4Field.setFont(font.getprimaryFont());
         panel.add(choice4Field);
 
+        // Check Boxes
+
+        checkOne = new JCheckBox();
+        checkTwo = new JCheckBox();
+        checkThree = new JCheckBox();
+        checkFour = new JCheckBox();
+
+        boxCombo = new ButtonGroup();
+        boxCombo.add(checkOne);
+        boxCombo.add(checkTwo);
+        boxCombo.add(checkThree);
+        boxCombo.add(checkFour);
+
+        // Icon gu = new ImageIcon("icon.png");
+        // // Icon guu = new ImageIcon("Sicon.png");
+        // checkOne.setIcon(gu);
+        // checkOne.setSelectedIcon(gu);
+        // // c2.setSelectedIcon(guu);
+
+        checkOne.setBounds(750, 280, 50, 30);
+        panel.add(checkOne);
+        checkTwo.setBounds(750, 330, 50, 30);
+        panel.add(checkTwo);
+        checkThree.setBounds(750, 380, 50, 30);
+        panel.add(checkThree);
+        checkFour.setBounds(750, 430, 50, 30);
+        panel.add(checkFour);
+
         // Button
 
         addQuestionButton = new JButton("ADD Question");
@@ -148,7 +183,8 @@ public class AddQuestion extends JFrame implements ActionListener {
         if (e.getSource() == addQuestionButton) {
 
             if (quesField.getText().equals("") || choice1Field.getText().equals("") || choice2Field.getText().equals("")
-                    || choice3Field.getText().equals("") || choice4Field.getText().equals("")) {
+                    || choice3Field.getText().equals("") || choice4Field.getText().equals("")
+                    || boxCombo.getSelection() == null) {
 
                 System.out.println("Dhukse");
 
@@ -161,14 +197,27 @@ public class AddQuestion extends JFrame implements ActionListener {
 
             else {
 
+                String correctChoice = null;
+
                 String questionItself = quesField.getText();
                 String choice1 = choice1Field.getText();
                 String choice2 = choice2Field.getText();
                 String choice3 = choice3Field.getText();
                 String choice4 = choice4Field.getText();
 
-                System.out.println(questionItself);
-
+                if (checkOne.isSelected()) {
+                    correctChoice = choice1;
+                } else if (checkTwo.isSelected()) {
+                    correctChoice = choice2;
+                } else if (checkThree.isSelected()) {
+                    correctChoice = choice3;
+                } else if (checkFour.isSelected()) {
+                    correctChoice = choice4;
+                }
+                System.out
+                        .println(questionItself + choice1 + choice2 + choice3 + choice4 + "Correct: " + correctChoice);
+                Questiondb.insertQuestion(
+                        new Question(courseId, questionItself, choice1, choice2, choice3, choice4, correctChoice));
                 // Database checking here
 
                 // Go back to home
@@ -183,8 +232,11 @@ public class AddQuestion extends JFrame implements ActionListener {
 
             }
 
-        } else if (e.getSource() == backButton) {
+        } else if (e.getSource() == backButton)
+
+        {
             dispose();
+
             TeacherHome tm = new TeacherHome(teacherName, teacherId);
             tm.setLocationRelativeTo(null);
             tm.setVisible(true);

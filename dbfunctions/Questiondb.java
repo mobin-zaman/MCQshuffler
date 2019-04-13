@@ -9,7 +9,7 @@ import java.util.*;
 public class Questiondb {
 
     // for inserting a single question
-    public static void insertQuestion(int courseid, Question q) {
+    public static void insertQuestion(Question q) {
         DB db = DB.getDB();
         String sql = "Insert into question (courseId,description,choiceOne,choiceTwo,choiceThree,choiceFour,correctChoice) Value(?,?,?,?,?,?,?)";
         try {
@@ -38,26 +38,6 @@ public class Questiondb {
         return questionList;
     }
 
-    // for retrieving all the questions of an exam
-    public static List<Question> getExamQuestions(int examId) {
-        DB db = DB.getDB();
-        // needed for passing to db.run.query()
-        ResultSetHandler<List<Question>> resultSetHandler = new BeanListHandler<Question>(Question.class);
-        // needed for return
-        List<Question> questionList = null;
-        // this is an example of IN
-        // needed for future reference as well
-        String sql = "SELECT * FROM question WHERE id IN(SELECT questionId FROM exam_question WHERE examId=?)";
-
-        try {
-            questionList = db.run.query(db.getConn(), sql, resultSetHandler, examId);
-        } catch (Exception e) {
-            System.out.println("getExamQuestions(): " + e);
-        }
-
-        return questionList;
-    }
-
     // self explanatory name
     public static List<Question> getRandomQuestionList(int courseId) {
 
@@ -65,4 +45,29 @@ public class Questiondb {
         Collections.shuffle(questionList);
         return questionList;
     }
+
+    // TODO: fix this method
+    // public static void updateQuestion(Question q){
+    // DB db =DB.getDB();
+    // String sql="UPDATE `question` SET `description` = ? , `choiceOne` = ? ,
+    // `choiceTwo` = ?, `choiceThree` = ?, `choiceFour` = ?, `correctChoice` = ?
+    // WHERE `question`.`id` = ?";
+    // try{
+    // db.run.update(db.getConn(),sql,q.getId(),q.getDescription(),q.getChoiceOne(),q.getChoiceTwo(),q.getChoiceThree(),q.getChoiceFour(),q.getCurrectChoice(),q.getId());
+    // }
+    // catch(Exception e){
+    // System.out.println("updateQuestion(): "+e);
+    // }
+    // }
+
+    public static void deleteQuestion(int questionId) {
+        DB db = DB.getDB();
+        String sql = "DELETE FROM question WHERE id=?";
+        try {
+            db.run.update(db.getConn(), sql, questionId);
+        } catch (Exception e) {
+            System.out.println("Delete question: " + e);
+        }
+    }
+
 }

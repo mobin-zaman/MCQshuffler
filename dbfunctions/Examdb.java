@@ -25,7 +25,32 @@ public class Examdb {
         return examList;
     }
 
-    public static void createExam(String description, int numberOfQuestions, int courseId, int duration) {
+    // for retrieving all the questions of an exam
+    public static List<Question> getExamQuestions(int examId) {
+        DB db = DB.getDB();
+        // needed for passing to db.run.query()
+        ResultSetHandler<List<Question>> resultSetHandler = new BeanListHandler<Question>(Question.class);
+        // needed for return
+        List<Question> questionList = null;
+        // this is an example of IN
+        // needed for future reference as well
+        String sql = "SELECT * FROM question WHERE id IN(SELECT questionId FROM exam_question WHERE examId=?)";
+
+        try {
+            questionList = db.run.query(db.getConn(), sql, resultSetHandler, examId);
+        } catch (Exception e) {
+            System.out.println("getExamQuestions(): " + e);
+        }
+
+        return questionList;
+    }
+
+    public static int getNumberOfQuestions(int examId) {
+        List<Question> questionList = getExamQuestions(examId);
+        return questionList.size();
+    }
+
+    public static void createExam(int courseId, String description, int numberOfQuestions, int duration) {
         DB db = DB.getDB();
         // fist insert the exam description, then retrieve id
         String sql = "Insert into exam(courseId,description,duration) Values(?,?,?)";
@@ -56,13 +81,34 @@ public class Examdb {
         }
     }
 
+    public static void publishExam(int examId) {
+        DB db = DB.getDB();
+        String sql = "UPDATE `exam` SET `isPublished` = '1' WHERE `exam`.`id` = ?";
+
+        try {
+            db.run.update(db.getConn(), sql, examId);
+        } catch (Exception e) {
+            System.out.println("publsh exam: " + e);
+        }
+    }
+
     public static void runExam(int examId) {
         DB db = DB.getDB();
-        List<Question> questionList = Questiondb.getExamQuestions(examId);
+        List<Question> questionList = Examdb.getExamQuestions(examId);
         // shuffle for every exam instance
         Collections.shuffle(questionList);
 
         // TODO: needs to be continued after finishig gui
+    }
+
+    public void deleteExam(int examId) {
+        DB db = DB.getDB();
+        String sql = "DELETE FROM exam WHERE id=?";
+        try {
+            db.run.update(db.getConn(), sql, examId);
+        } catch (Exception e) {
+            System.out.println("deleteexam(): " + e);
+        }
     }
 
     //

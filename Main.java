@@ -17,20 +17,20 @@ public class Main {
 
         // System.out.println(Studentdb.isRejected("1", "2"));
 
-        Studentdb.signUp(mobin, mobin);
+        // Studentdb.signUp(mobin, mobin);
         // List<Course> course = Coursedb.getCourseList("1");
         // course.forEach((c) -> {
-        // System.out.println(c.getId());
-        // System.out.println(c.getName());
+        // System.out.println(c.getId()); // System.out.println(c.getName());
         // System.out.println(c.getTeacherId());
         // });
         // List<Course> course = Coursedb.getCourseList("1");
         // String str = Coursedb.getNumberOfQuestions(course.get(0).getId());
 
-        // System.out.println(str);
-        // TeacherLogin fl = new TeacherLogin();
-        // fl.setLocationRelativeTo(null);
-        // fl.setVisible(true);
+        TeacherLogin fl = new TeacherLogin();
+        fl.setLocationRelativeTo(null);
+        fl.setVisible(true);
+
+        // System.out.println(Coursedb.getNumberOfQuestions(3));
 
         // Coursedb.deleteCourse(3);
 

@@ -3,7 +3,9 @@ package gui.teacher;
 import gui.components.*;
 import dbfunctions.Coursedb;
 import dbfunctions.Teacherdb;
+import dbfunctions.Examdb;
 import classes.Course;
+import classes.Exam;
 
 import javax.swing.border.EmptyBorder;
 import java.util.List;
@@ -13,31 +15,32 @@ import javax.swing.*;
 import java.awt.event.*;
 import java.awt.*;
 
-public class TeacherHome extends JFrame implements ActionListener, MouseListener {
+public class ExamPage extends JFrame implements ActionListener, MouseListener {
 
     private JLabel navBar, boxOne, boxTwo, welcome, title, studentNumber, questionNumber, num1, num2, loginSuccess;
-    private JButton addCourse, logoutButton, courseName, goToButton, deleteButton;
+    private JButton addExam, backButton, courseName, publish, deleteButton;
 
     private JPanel panel;
-    private String teacherId, teacherName;
+    private String teacherName;
     private int courseId;
+    private int examId;
     private String theCourse;
-    private String coursess[];
+    private String exams[];
 
-    private List<Course> course;
+    private List<Exam> exam;
 
     // Components
     private MyColor color;
     private MyFont font;
 
-    private JList courseList;
+    private JList examList;
 
-    public TeacherHome(String name, String ID) {
+    public ExamPage(String name, int ID) {
 
-        super(name + "'s Home");
+        super("Exam Page");
 
         teacherName = name;
-        teacherId = ID;
+        courseId = ID;
         // UI Elements
         this.setSize(1000, 700);
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -50,20 +53,20 @@ public class TeacherHome extends JFrame implements ActionListener, MouseListener
 
         // Navbar
 
-        welcome = new JLabel("Welcome, " + name);
+        welcome = new JLabel("Course name Here");
         welcome.setFont(font.getMediumFont());
         welcome.setForeground(color.getBgColor());
         welcome.setBounds(40, 18, 400, 25);
         panel.add(welcome);
 
-        logoutButton = new JButton("Logout");
-        logoutButton.setFont(font.getprimaryFont());
-        logoutButton.setBackground(color.getsecondaryButtonColor());
-        logoutButton.setForeground(color.getBgColor());
-        logoutButton.setFocusPainted(false);
-        logoutButton.setBounds(850, 13, 100, 35);
-        logoutButton.addActionListener(this);
-        panel.add(logoutButton);
+        backButton = new JButton("Back");
+        backButton.setFont(font.getprimaryFont());
+        backButton.setBackground(color.getsecondaryButtonColor());
+        backButton.setForeground(color.getBgColor());
+        backButton.setFocusPainted(false);
+        backButton.setBounds(850, 13, 100, 35);
+        backButton.addActionListener(this);
+        panel.add(backButton);
 
         navBar = new JLabel();
         navBar.setOpaque(true);
@@ -73,30 +76,24 @@ public class TeacherHome extends JFrame implements ActionListener, MouseListener
 
         // Buttons
 
-        addCourse = new JButton("ADD Course");
+        addExam = new JButton("Create Exam");
 
-        addCourse.setFont(font.getMediumFont());
-        addCourse.setBackground(color.getButtonColor());
-        addCourse.setForeground(color.getBgColor());
-        addCourse.setFocusPainted(false);
-        addCourse.setBounds(40, 70, 200, 50);
-        addCourse.addActionListener(this);
-        panel.add(addCourse);
+        addExam.setFont(font.getMediumFont());
+        addExam.setBackground(color.getButtonColor());
+        addExam.setForeground(color.getBgColor());
+        addExam.setFocusPainted(false);
+        addExam.setBounds(40, 70, 200, 50);
+        addExam.addActionListener(this);
+        panel.add(addExam);
 
-        title = new JLabel("Your Courses:");
+        title = new JLabel("Exam List");
         title.setFont(font.getTinyFont());
         title.setBounds(150, 125, 120, 25);
         panel.add(title);
 
         // Texts
 
-        loginSuccess = new JLabel("You have successfully Logged in");
-        loginSuccess.setFont(font.getMediumFont());
-        loginSuccess.setForeground(color.getNavbarColor());
-        loginSuccess.setBounds(580, 90, 400, 25);
-        panel.add(loginSuccess);
-
-        studentNumber = new JLabel("Students");
+        studentNumber = new JLabel("Questions");
         studentNumber.setFont(font.getBigFont());
         studentNumber.setForeground(color.getBgColor());
         studentNumber.setBounds(420, 380, 250, 50);
@@ -109,7 +106,7 @@ public class TeacherHome extends JFrame implements ActionListener, MouseListener
         num1.setBounds(390, 70, 400, 400);
         panel.add(num1);
 
-        questionNumber = new JLabel("Questions");
+        questionNumber = new JLabel("Duration");
         questionNumber.setFont(font.getBigFont());
         questionNumber.setForeground(color.getBgColor());
         questionNumber.setBounds(720, 380, 250, 50);
@@ -137,34 +134,43 @@ public class TeacherHome extends JFrame implements ActionListener, MouseListener
         panel.add(boxTwo);
 
         // Combobox
-        List<Course> course = Coursedb.getCourseList(ID);
 
-        int length = course.size();
-        coursess = new String[length];
+        List<Exam> exam = Examdb.getExamList(courseId);
+
+        int length = exam.size();
+        exams = new String[length];
         int i = 0;
-        for (Course c : course) {
-            coursess[i] = c.getName();
+        for (Exam c : exam) {
+            exams[i] = c.getDescription();
             i++;
         }
-        courseList = new JList(coursess);
-        courseList.setFont(font.getMediumFont());
-        courseList.setBorder(new EmptyBorder(10, 10, 10, 10));
-        courseList.setForeground(color.getTextColor());
-        courseList.setBounds(40, 150, 300, 450);
-        courseList.addMouseListener(this);
+        examList = new JList(exams);
+        examList.setFont(font.getMediumFont());
+        examList.setBorder(new EmptyBorder(10, 10, 10, 10));
+        examList.setForeground(color.getTextColor());
+        examList.setBounds(40, 150, 300, 450);
+        examList.addMouseListener(this);
 
-        panel.add(courseList);
+        panel.add(examList);
 
-        goToButton = new JButton("Go to Course");
-        goToButton.setBounds(360, 500, 400, 50);
-        goToButton.setFont(font.getprimaryFont());
-        goToButton.setForeground(color.getBgColor());
-        goToButton.setBackground(color.getButtonColor());
-        goToButton.setFocusPainted(false);
-        goToButton.addActionListener(this);
-        panel.add(goToButton);
+        publish = new JButton("Publish");
+        publish.setBounds(360, 500, 200, 50);
+        publish.setFont(font.getprimaryFont());
+        publish.setForeground(color.getBgColor());
+        publish.setBackground(color.getButtonColor());
+        publish.setFocusPainted(false);
+        publish.addActionListener(this);
+        panel.add(publish);
 
-        deleteButton = new JButton("Delete Course");
+        deleteButton = new JButton("Get Marks");
+        deleteButton.setBounds(560, 500, 200, 50);
+        deleteButton.setFont(font.getprimaryFont());
+        deleteButton.setForeground(color.getBgColor());
+        deleteButton.setBackground(color.getDelteButtonColor());
+        deleteButton.addActionListener(this);
+        panel.add(deleteButton);
+
+        deleteButton = new JButton("Delete");
         deleteButton.setBounds(780, 500, 170, 50);
         deleteButton.setFont(font.getprimaryFont());
         deleteButton.setForeground(color.getBgColor());
@@ -183,29 +189,29 @@ public class TeacherHome extends JFrame implements ActionListener, MouseListener
     }
 
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == addCourse) {
+        if (e.getSource() == addExam) {
             this.dispose();
-            AddCourse f = new AddCourse(theCourse, teacherId);
+            AddExam f = new AddExam(theCourse, Integer.toString(courseId));
             f.setLocationRelativeTo(null);
             f.setVisible(true);
 
-        } else if (e.getSource() == goToButton) {
+        } else if (e.getSource() == publish) {
 
             this.dispose();
             CoursePage cc = new CoursePage(theCourse, courseId);
             cc.setLocationRelativeTo(null);
             cc.setVisible(true);
 
-        } else if (e.getSource() == logoutButton) {
+        } else if (e.getSource() == backButton) {
             this.dispose();
-            TeacherLogin tg = new TeacherLogin();
-            tg.setLocationRelativeTo(null);
-            tg.setVisible(true);
+            CoursePage cc = new CoursePage(theCourse, courseId);
+            cc.setLocationRelativeTo(null);
+            cc.setVisible(true);
 
         } else if (e.getSource() == deleteButton) {
             Coursedb.deleteCourse(courseId);
             dispose();
-            TeacherHome teacherHome = new TeacherHome(teacherName, teacherId);
+            TeacherHome teacherHome = new TeacherHome(teacherName, Integer.toString(courseId));
             teacherHome.setLocationRelativeTo(null);
             teacherHome.setVisible(true);
 
@@ -216,22 +222,24 @@ public class TeacherHome extends JFrame implements ActionListener, MouseListener
     public void mouseClicked(MouseEvent e) {
 
         // String str2 = "123";
-        if (e.getSource() == courseList) {
+        if (e.getSource() == examList) {
 
-            int selected = courseList.getSelectedIndex();
+            int selected = examList.getSelectedIndex();
 
             // System.out.println(selected);
 
-            List<Course> c = Coursedb.getCourseList(teacherId);
+            List<Exam> c = Examdb.getExamList(courseId);
 
             int indice = c.get(selected).getId();
-            courseId = indice;
-            theCourse = c.get(selected).getName();
-            String str = Coursedb.getNumberOfStudents(indice);
-            num1.setText(str);
+            examId = indice;
+            int str = c.get(selected).getDuration();
 
-            String str2 = Coursedb.getNumberOfQuestions(indice);
-            num2.setText(str2);
+            num2.setText(Integer.toString(str));
+
+            System.out.println(str);
+
+            int str2 = Examdb.getNumberOfQuestions(c.get(selected).getId());
+            num1.setText(Integer.toString(str2));
 
         } else {
 

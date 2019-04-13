@@ -19,6 +19,7 @@ public class Studentdb {
 
         Student student = null;
 
+        //collaborate
         try {
             student = db.run.query(db.getConn(), sql, resultSetHandler, username, password);
         } catch (Exception e) {
@@ -36,7 +37,7 @@ public class Studentdb {
         }
     }
 
-    public static boolean signUp(Strign username, String password){
+    public static boolean signUp(String username, String password){
         DB db=DB.getDB();
         String sql="SELECT * FROM student WHERE name=?";
         ResultSetHandler <Student> resultSetHandler=BeanHandler<Student>(Student.class);

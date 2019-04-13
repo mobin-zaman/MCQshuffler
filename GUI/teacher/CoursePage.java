@@ -14,18 +14,20 @@ import java.awt.*;
 public class CoursePage extends JFrame implements ActionListener, MouseListener {
 
     private JLabel navBar, titleBar, welcome, boxOne, title, oneLabel, twoLabel, threeLabel, fourLabel;
-    private JButton addQuestion, addExam, students, requests, logoutButton, updateButton, backButton;
+    private JButton addQuestion, addExam, students, requests, logoutButton, updateButton, deleteBtn, backButton;
     private JTextField theQuestion, choice1, choice2, choice3, choice4;
 
     private JScrollPane scrollPane;
 
-    private int courseId;
+    private int courseId, questionId;
     private JList questionList;
 
-    private String name, teacherID;
+    private String TeacherName, teacherID;
+    JOptionPane confirmDelete;
 
     private JPanel panel;
 
+    private List<Question> courseQuestion;
     // Components
     private MyColor color;
     private MyFont font;
@@ -34,7 +36,7 @@ public class CoursePage extends JFrame implements ActionListener, MouseListener 
 
         super(name);
 
-        this.name = name;
+        this.TeacherName = name;
         this.courseId = courseId;
         this.teacherID = Integer.toString(courseId);
 
@@ -176,7 +178,7 @@ public class CoursePage extends JFrame implements ActionListener, MouseListener 
         title.setBounds(280, 75, 300, 25);
         panel.add(title);
 
-        List<Question> courseQuestion = Questiondb.getAllQuestionList(courseId);
+        courseQuestion = Questiondb.getAllQuestionList(courseId);
 
         int length = courseQuestion.size();
         String questionBak[] = new String[length];
@@ -199,14 +201,24 @@ public class CoursePage extends JFrame implements ActionListener, MouseListener 
         boxOne.setBounds(600, 100, 355, 320);
         panel.add(boxOne);
 
-        updateButton = new JButton("Update Question");
+        updateButton = new JButton("Update");
+
         updateButton.setFont(font.getMediumFont());
         updateButton.setBackground(color.getEditButtonColor());
         updateButton.setForeground(color.getBgColor());
         updateButton.setFocusPainted(false);
-        updateButton.setBounds(652, 450, 250, 50);
+        updateButton.setBounds(652, 450, 100, 50);
         updateButton.addActionListener(this);
         panel.add(updateButton);
+
+        deleteBtn = new JButton("Delete");
+        deleteBtn.setFont(font.getMediumFont());
+        deleteBtn.setBackground(color.getEditButtonColor());
+        deleteBtn.setForeground(color.getBgColor());
+        deleteBtn.setFocusPainted(false);
+        deleteBtn.setBounds(850, 450, 100, 50);
+        deleteBtn.addActionListener(this);
+        panel.add(deleteBtn);
 
         this.add(panel);
 
@@ -220,23 +232,47 @@ public class CoursePage extends JFrame implements ActionListener, MouseListener 
         if (e.getSource() == backButton) {
 
             this.dispose();
-            TeacherHome f = new TeacherHome(name, teacherID);
+            TeacherHome f = new TeacherHome(TeacherName, teacherID);
             f.setLocationRelativeTo(null);
             f.setVisible(true);
         } else if (e.getSource() == addQuestion) {
 
             System.out.println("Add Question Clicked");
             this.dispose();
-            AddQuestion f = new AddQuestion(name, teacherID);
+            AddQuestion f = new AddQuestion(TeacherName, teacherID, courseId);
             f.setLocationRelativeTo(null);
             f.setVisible(true);
 
         } else if (e.getSource() == addExam) {
             System.out.println("Add Exam Clicked");
+
+            this.dispose();
+            ExamPage exam = new ExamPage(TeacherName, courseId);
+            exam.setLocationRelativeTo(null);
+            exam.setVisible(true);
+
         } else if (e.getSource() == requests) {
             System.out.println("Requests Clicked");
         } else if (e.getSource() == students) {
             System.out.println("Students Clicked");
+        } else if (e.getSource() == deleteBtn) {
+            System.out.println("Delete question Clicked");
+
+            confirmDelete = new JOptionPane();
+            int dialogButton = JOptionPane.YES_NO_OPTION;
+            int dialogResult = confirmDelete.showConfirmDialog(null, "Are you sure to delete the course?", "Warning",
+                    dialogButton);
+            if (dialogResult == JOptionPane.YES_OPTION) {
+
+                Questiondb.deleteQuestion(courseQuestion.get(questionId).getId());
+                this.dispose();
+                CoursePage cp = new CoursePage(TeacherName, courseId);
+                cp.setLocationRelativeTo(null);
+                cp.setVisible(true);
+            } else {
+                System.out.println("Mara kha taile bainchut");
+            }
+
         }
 
     }
@@ -259,6 +295,7 @@ public class CoursePage extends JFrame implements ActionListener, MouseListener 
             String choiceThree = c.get(selected).getChoiceThree();
             String choiceFour = c.get(selected).getChoiceFour();
             String currectChoice = c.get(selected).getCorrectChoice();
+            questionId = selected;
 
             System.out.println(currectChoice);
 
