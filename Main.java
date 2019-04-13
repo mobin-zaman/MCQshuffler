@@ -17,6 +17,7 @@ public class Main {
 
         // System.out.println(Studentdb.isRejected("1", "2"));
 
+        Studentdb.signUp(mobin, mobin);
         // List<Course> course = Coursedb.getCourseList("1");
         // course.forEach((c) -> {
         // System.out.println(c.getId());
@@ -27,9 +28,9 @@ public class Main {
         // String str = Coursedb.getNumberOfQuestions(course.get(0).getId());
 
         // System.out.println(str);
-        TeacherLogin fl = new TeacherLogin();
-        fl.setLocationRelativeTo(null);
-        fl.setVisible(true);
+        // TeacherLogin fl = new TeacherLogin();
+        // fl.setLocationRelativeTo(null);
+        // fl.setVisible(true);
 
         // Coursedb.deleteCourse(3);
 

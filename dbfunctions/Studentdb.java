@@ -36,6 +36,31 @@ public class Studentdb {
         }
     }
 
+    public static boolean signUp(Strign username, String password){
+        DB db=DB.getDB();
+        String sql="SELECT * FROM student WHERE name=?";
+        ResultSetHandler <Student> resultSetHandler=BeanHandler<Student>(Student.class);
+        Student student=null;
+        try{ 
+            db.run.query(db.getConn(),sql,resultSetHandler,username);
+        } catch(Exception e){ System.out.println("signup(): student:  "+e);}
+
+        if(student!=null){
+            System.out.println("username existes!");
+            return false;
+        }
+
+
+        sql= "INSERT into student(name,password) VALUES(?,?)";
+        try{
+            db.run.update(db.getCon(),sql,username,password);
+        } catch(Exception e){
+            System.out.println("student signup: "+e);
+        }
+        return true;
+
+    }
+
     // TODO: function for requesting course from the course list
     // if the return value is false, means the student was rejected and can't
     // request again
@@ -43,6 +68,7 @@ public class Studentdb {
         DB db = DB.getDB();
         // as the student was rejected so he can't request anymore
         if (isRejected(studentId, courseId)) {
+            System.out.println("student rejected for courseId: "+courseId);
             return false;
         }
         // else

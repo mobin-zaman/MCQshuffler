@@ -73,12 +73,13 @@ public class Coursedb {
         return query(sql, teacherId);
 
     }
-
+    //function intended to be used in studentdb
     public static List<Course> getOfferedCourseList(String studentId) {
         String sql = "SELECT * FROM course WHERE id NOT IN(SELECT courseId FROM course_student WHERE studentId=?)";
         return query(sql, studentId);
     }
 
+    //functoin intended to be used in teacherdb
     public static List<Course> getEnrolledCourseList(String studentId) {
         String sql = "SELECT * FROM course WHERE id IN(SELECT courseId FROM course_student WHERE studentId=?)";
         return query(sql, studentId);
