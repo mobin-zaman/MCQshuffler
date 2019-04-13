@@ -1,7 +1,7 @@
 package gui.teacher;
 
 import gui.components.*;
-import dbfunctions.*;
+import dbfunctions.Examdb;
 
 import java.awt.Color;
 import java.awt.event.*;
@@ -10,10 +10,11 @@ import javax.swing.*;
 public class AddExam extends JFrame implements ActionListener {
 
     private String teacherName, teacherId;
+    private int courseId;
 
-    private JLabel navbar, headerOne, examName, examDuration;
-    private JTextField examNameField, examDurationField;
-    private JButton addExamButton, backButton;
+    private JLabel navBar, headerOne, examName, examDuration, welcome, numberOfQuestion;
+    private JTextField examNameField, examDurationField, numberOfQuestionField;
+    private JButton createExam, backButton;
     private JPanel panel;
     private JOptionPane errorMessage, errorPane, successPane;
 
@@ -23,12 +24,13 @@ public class AddExam extends JFrame implements ActionListener {
 
     JToggleButton toggleButton;
 
-    public AddExam(String name, String ID) {
+    public AddExam(String tName, String tId, int cId) {
 
-        super("Add Course");
+        super("Add Exam");
 
-        teacherName = name;
-        teacherId = ID;
+        teacherName = tName;
+        teacherId = tId;
+        courseId = cId;
 
         color = new MyColor();
         font = new MyFont();
@@ -40,7 +42,7 @@ public class AddExam extends JFrame implements ActionListener {
         panel.setLayout(null);
 
         // Navbar
-        welcome = new JLabel(name);
+        welcome = new JLabel("welcome");
         welcome.setFont(font.getprimaryFont());
         welcome.setForeground(color.getBgColor());
         welcome.setBounds(40, 18, 400, 25);
@@ -102,13 +104,13 @@ public class AddExam extends JFrame implements ActionListener {
         numberOfQuestionField.setFont(font.getprimaryFont());
         panel.add(numberOfQuestionField);
 
-        addExamButton = new JButton("Create Exam");
-        addExamButton.setBounds(300, 600, 400, 40);
-        addExamButton.setFont(font.getprimaryFont());
-        addExamButton.setForeground(color.getBgColor());
-        addExamButton.setBackground(color.getButtonColor());
-        addExamButton.addActionListener(this);
-        panel.add(addExamButton);
+        createExam = new JButton("Create Exam");
+        createExam.setBounds(300, 600, 400, 40);
+        createExam.setFont(font.getprimaryFont());
+        createExam.setForeground(color.getBgColor());
+        createExam.setBackground(color.getButtonColor());
+        createExam.addActionListener(this);
+        panel.add(createExam);
 
         this.add(panel);
     }
@@ -116,7 +118,47 @@ public class AddExam extends JFrame implements ActionListener {
     // Action Listeners
 
     public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == createExam) {
+
+            if (examNameField.getText().equals("") || examDurationField.getText().equals("")
+                    || numberOfQuestionField.getText().equals("")) {
+                errorMessage = new JOptionPane();
+                errorMessage.setFont(font.getprimaryFont());
+                errorMessage.showMessageDialog(null, "All fields are required!", "Wrong Input!",
+                        JOptionPane.WARNING_MESSAGE);
+            }
+
+            else {
+
+                System.out.println("Boss ami eljanme asi");
+
+                String descripton = examNameField.getText();
+                int duration = Integer.parseInt(examDurationField.getText());
+                int numberOfQuestion = Integer.parseInt(numberOfQuestionField.getText());
+
+                // Database checking here
+                Examdb.createExam(courseId, descripton, numberOfQuestion, duration);
+
+                examNameField.setText("");
+                examDurationField.setText("");
+                numberOfQuestionField.setText("");
+
+                System.out.println("Bos ami einite");
+
+                // Go back to home
+                successPane = new JOptionPane();
+                successPane.setFont(font.getprimaryFont());
+                successPane.showMessageDialog(null, "Exam Created Successfully!", "Success!",
+                        JOptionPane.WARNING_MESSAGE);
+
+            }
+
+        } else if (e.getSource() == backButton) {
+            dispose();
+            ExamPage tm = new ExamPage(teacherName, teacherId, courseId);
+            tm.setLocationRelativeTo(null);
+            tm.setVisible(true);
+        }
 
     }
-
 }

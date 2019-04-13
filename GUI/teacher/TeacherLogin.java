@@ -19,13 +19,9 @@ public class TeacherLogin extends JFrame implements ActionListener, MouseListene
     private JSeparator separator;
     private JOptionPane errorMessage, errorPane;
 
-    private Color myColor;
-
     // Components
     private MyColor color;
     private MyFont font;
-
-    JToggleButton toggleButton;
 
     public TeacherLogin() {
 
@@ -42,16 +38,6 @@ public class TeacherLogin extends JFrame implements ActionListener, MouseListene
         panel.setOpaque(false);
         panel.setBackground(myColor);
         panel.setLayout(null);
-
-        // Toggle Button for Dark and Night mode
-
-        toggleButton = new JToggleButton("Dark");
-        toggleButton.setBounds(650, 200, 100, 50);
-        toggleButton.setFont(font.getprimaryFont());
-        toggleButton.setBackground(color.getButtonColor());
-        toggleButton.setForeground(color.getBgColor());
-        panel.add(toggleButton);
-        toggleButton.addActionListener(this);
 
         // Separator
         separator = new JSeparator(JSeparator.VERTICAL);
@@ -140,7 +126,6 @@ public class TeacherLogin extends JFrame implements ActionListener, MouseListene
                             JOptionPane.WARNING_MESSAGE);
                 } else {
                     String teacherID = Integer.toString(Teacherdb.login(name, pass));
-
                     dispose();
                     TeacherHome teacherHome = new TeacherHome(name, teacherID);
                     teacherHome.setLocationRelativeTo(null);
@@ -150,14 +135,6 @@ public class TeacherLogin extends JFrame implements ActionListener, MouseListene
 
         } else if (e.getSource() == signupButton) {
 
-        } else if (e.getSource() == toggleButton) {
-            if (toggleButton.isSelected()) {
-                toggleButton.setText("Light");
-                panel.setBackground(Color.gray);
-            } else {
-                panel.setBackground(Color.white);
-                toggleButton.setText("Dark");
-            }
         }
     }
 

@@ -22,7 +22,7 @@ public class CoursePage extends JFrame implements ActionListener, MouseListener 
     private int courseId, questionId;
     private JList questionList;
 
-    private String TeacherName, teacherID;
+    private String TeacherName, teacherId;
     JOptionPane confirmDelete;
 
     private JPanel panel;
@@ -32,13 +32,14 @@ public class CoursePage extends JFrame implements ActionListener, MouseListener 
     private MyColor color;
     private MyFont font;
 
-    public CoursePage(String name, int courseId) {
+    public CoursePage(String tName, String tId, int courseId) {
 
-        super(name);
+        super("Course page");
 
-        this.TeacherName = name;
+        this.TeacherName = tName;
         this.courseId = courseId;
-        this.teacherID = Integer.toString(courseId);
+        this.teacherId = tId;
+        // this.teacherId = Integer.toString(courseId);
 
         // UI Elements
         this.setSize(1000, 700);
@@ -52,7 +53,7 @@ public class CoursePage extends JFrame implements ActionListener, MouseListener 
 
         // Navbar
 
-        welcome = new JLabel(name);
+        welcome = new JLabel("Welcome re");
         welcome.setFont(font.getMediumFont());
         welcome.setForeground(color.getBgColor());
         welcome.setBounds(40, 18, 400, 25);
@@ -207,6 +208,7 @@ public class CoursePage extends JFrame implements ActionListener, MouseListener 
         updateButton.setBackground(color.getEditButtonColor());
         updateButton.setForeground(color.getBgColor());
         updateButton.setFocusPainted(false);
+        updateButton.setEnabled(false);
         updateButton.setBounds(652, 450, 100, 50);
         updateButton.addActionListener(this);
         panel.add(updateButton);
@@ -216,6 +218,7 @@ public class CoursePage extends JFrame implements ActionListener, MouseListener 
         deleteBtn.setBackground(color.getEditButtonColor());
         deleteBtn.setForeground(color.getBgColor());
         deleteBtn.setFocusPainted(false);
+        deleteBtn.setEnabled(false);
         deleteBtn.setBounds(850, 450, 100, 50);
         deleteBtn.addActionListener(this);
         panel.add(deleteBtn);
@@ -232,14 +235,14 @@ public class CoursePage extends JFrame implements ActionListener, MouseListener 
         if (e.getSource() == backButton) {
 
             this.dispose();
-            TeacherHome f = new TeacherHome(TeacherName, teacherID);
+            TeacherHome f = new TeacherHome(TeacherName, teacherId);
             f.setLocationRelativeTo(null);
             f.setVisible(true);
         } else if (e.getSource() == addQuestion) {
 
             System.out.println("Add Question Clicked");
             this.dispose();
-            AddQuestion f = new AddQuestion(TeacherName, teacherID, courseId);
+            AddQuestion f = new AddQuestion(TeacherName, teacherId, courseId);
             f.setLocationRelativeTo(null);
             f.setVisible(true);
 
@@ -247,7 +250,7 @@ public class CoursePage extends JFrame implements ActionListener, MouseListener 
             System.out.println("Add Exam Clicked");
 
             this.dispose();
-            ExamPage exam = new ExamPage(TeacherName, courseId);
+            ExamPage exam = new ExamPage(TeacherName, teacherId, courseId);
             exam.setLocationRelativeTo(null);
             exam.setVisible(true);
 
@@ -266,7 +269,7 @@ public class CoursePage extends JFrame implements ActionListener, MouseListener 
 
                 Questiondb.deleteQuestion(courseQuestion.get(questionId).getId());
                 this.dispose();
-                CoursePage cp = new CoursePage(TeacherName, courseId);
+                CoursePage cp = new CoursePage(TeacherName, teacherId, courseId);
                 cp.setLocationRelativeTo(null);
                 cp.setVisible(true);
             } else {
@@ -282,6 +285,9 @@ public class CoursePage extends JFrame implements ActionListener, MouseListener 
         System.out.println("Mouse clicked");
 
         if (e.getSource() == questionList) {
+
+            updateButton.setEnabled(true);
+            deleteBtn.setEnabled(true);
 
             int selected = questionList.getSelectedIndex();
 

@@ -21,14 +21,12 @@ public class AddCourse extends JFrame implements ActionListener {
     private MyColor color;
     private MyFont font;
 
-    JToggleButton toggleButton;
-
-    public AddCourse(String name, String ID) {
+    public AddCourse(String tName, String tID) {
 
         super("Add Course");
 
-        teacherName = name;
-        teacherId = ID;
+        teacherName = tName;
+        teacherId = tID;
 
         color = new MyColor();
         font = new MyFont();
@@ -40,7 +38,7 @@ public class AddCourse extends JFrame implements ActionListener {
         panel.setLayout(null);
 
         // Navbar
-        welcome = new JLabel(name);
+        welcome = new JLabel(teacherName);
         welcome.setFont(font.getprimaryFont());
         welcome.setForeground(color.getBgColor());
         welcome.setBounds(40, 18, 400, 25);
@@ -123,9 +121,9 @@ public class AddCourse extends JFrame implements ActionListener {
 
         } else if (e.getSource() == backButton) {
             dispose();
-            ExamPage ExamPage = new ExamPage(teacherName, 25);
-            ExamPage.setLocationRelativeTo(null);
-            ExamPage.setVisible(true);
+            TeacherHome th = new TeacherHome(teacherName, teacherId);
+            th.setLocationRelativeTo(null);
+            th.setVisible(true);
         } else {
 
         }

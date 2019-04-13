@@ -101,7 +101,7 @@ public class Examdb {
         // TODO: needs to be continued after finishig gui
     }
 
-    public void deleteExam(int examId) {
+    public static void deleteExam(int examId) {
         DB db = DB.getDB();
         String sql = "DELETE FROM exam WHERE id=?";
         try {

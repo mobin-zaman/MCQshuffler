@@ -18,10 +18,11 @@ import java.awt.*;
 public class ExamPage extends JFrame implements ActionListener, MouseListener {
 
     private JLabel navBar, boxOne, boxTwo, welcome, title, studentNumber, questionNumber, num1, num2, loginSuccess;
-    private JButton addExam, backButton, courseName, publish, deleteButton;
+    private JButton addExam, backButton, courseName, publish, getMarks, deleteButton;
 
     private JPanel panel;
-    private String teacherName;
+    private JOptionPane confirmDelete;
+    private String teacherName, teacherId;
     private int courseId;
     private int examId;
     private String theCourse;
@@ -35,12 +36,13 @@ public class ExamPage extends JFrame implements ActionListener, MouseListener {
 
     private JList examList;
 
-    public ExamPage(String name, int ID) {
+    public ExamPage(String tName, String tId, int cId) {
 
         super("Exam Page");
 
-        teacherName = name;
-        courseId = ID;
+        teacherName = tName;
+        teacherId = tId;
+        courseId = cId;
         // UI Elements
         this.setSize(1000, 700);
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -154,27 +156,30 @@ public class ExamPage extends JFrame implements ActionListener, MouseListener {
         panel.add(examList);
 
         publish = new JButton("Publish");
-        publish.setBounds(360, 500, 200, 50);
+        publish.setBounds(360, 500, 180, 50);
         publish.setFont(font.getprimaryFont());
         publish.setForeground(color.getBgColor());
         publish.setBackground(color.getButtonColor());
+        publish.setEnabled(false);
         publish.setFocusPainted(false);
         publish.addActionListener(this);
         panel.add(publish);
 
-        deleteButton = new JButton("Get Marks");
-        deleteButton.setBounds(560, 500, 200, 50);
-        deleteButton.setFont(font.getprimaryFont());
-        deleteButton.setForeground(color.getBgColor());
-        deleteButton.setBackground(color.getDelteButtonColor());
-        deleteButton.addActionListener(this);
-        panel.add(deleteButton);
+        getMarks = new JButton("Get Marks");
+        getMarks.setBounds(570, 500, 180, 50);
+        getMarks.setFont(font.getprimaryFont());
+        getMarks.setForeground(color.getBgColor());
+        getMarks.setEnabled(false);
+        getMarks.setBackground(color.getDelteButtonColor());
+        getMarks.addActionListener(this);
+        panel.add(getMarks);
 
         deleteButton = new JButton("Delete");
-        deleteButton.setBounds(780, 500, 170, 50);
+        deleteButton.setBounds(780, 500, 180, 50);
         deleteButton.setFont(font.getprimaryFont());
         deleteButton.setForeground(color.getBgColor());
         deleteButton.setBackground(color.getDelteButtonColor());
+        deleteButton.setEnabled(false);
         deleteButton.addActionListener(this);
         panel.add(deleteButton);
 
@@ -191,30 +196,38 @@ public class ExamPage extends JFrame implements ActionListener, MouseListener {
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == addExam) {
             this.dispose();
-            AddExam f = new AddExam(theCourse, Integer.toString(courseId));
+            AddExam f = new AddExam(teacherName, teacherId, courseId);
             f.setLocationRelativeTo(null);
             f.setVisible(true);
 
         } else if (e.getSource() == publish) {
 
             this.dispose();
-            CoursePage cc = new CoursePage(theCourse, courseId);
+            CoursePage cc = new CoursePage(teacherName, teacherId, courseId);
             cc.setLocationRelativeTo(null);
             cc.setVisible(true);
 
         } else if (e.getSource() == backButton) {
             this.dispose();
-            CoursePage cc = new CoursePage(theCourse, courseId);
+            CoursePage cc = new CoursePage(teacherName, teacherId, courseId);
             cc.setLocationRelativeTo(null);
             cc.setVisible(true);
 
         } else if (e.getSource() == deleteButton) {
-            Coursedb.deleteCourse(courseId);
-            dispose();
-            TeacherHome teacherHome = new TeacherHome(teacherName, Integer.toString(courseId));
-            teacherHome.setLocationRelativeTo(null);
-            teacherHome.setVisible(true);
+            System.out.println("Delete question Clicked");
 
+            confirmDelete = new JOptionPane();
+            int dialogButton = JOptionPane.YES_NO_OPTION;
+            int dialogResult = confirmDelete.showConfirmDialog(null, "Are you sure to delete the course?", "Warning",
+                    dialogButton);
+            if (dialogResult == JOptionPane.YES_OPTION) {
+
+                Examdb.deleteExam(examId);
+                this.dispose();
+                ExamPage cp = new ExamPage(teacherName, teacherId, courseId);
+                cp.setLocationRelativeTo(null);
+                cp.setVisible(true);
+            }
         }
 
     }
@@ -223,6 +236,9 @@ public class ExamPage extends JFrame implements ActionListener, MouseListener {
 
         // String str2 = "123";
         if (e.getSource() == examList) {
+            publish.setEnabled(true);
+            getMarks.setEnabled(true);
+            deleteButton.setEnabled(true);
 
             int selected = examList.getSelectedIndex();
 
@@ -241,7 +257,9 @@ public class ExamPage extends JFrame implements ActionListener, MouseListener {
             int str2 = Examdb.getNumberOfQuestions(c.get(selected).getId());
             num1.setText(Integer.toString(str2));
 
-        } else {
+        }
+
+        else {
 
         }
 

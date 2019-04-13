@@ -16,7 +16,7 @@ import java.awt.*;
 public class TeacherHome extends JFrame implements ActionListener, MouseListener {
 
     private JLabel navBar, boxOne, boxTwo, welcome, title, studentNumber, questionNumber, num1, num2, loginSuccess;
-    private JButton addCourse, logoutButton, courseName, goToButton, deleteButton;
+    private JButton addCourse, logoutButton, goToButton, deleteButton;
 
     private JPanel panel;
     private String teacherId, teacherName;
@@ -32,12 +32,12 @@ public class TeacherHome extends JFrame implements ActionListener, MouseListener
 
     private JList courseList;
 
-    public TeacherHome(String name, String ID) {
+    public TeacherHome(String tName, String tID) {
 
-        super(name + "'s Home");
+        super(tName + "'s Home");
 
-        teacherName = name;
-        teacherId = ID;
+        teacherName = tName;
+        teacherId = tID;
         // UI Elements
         this.setSize(1000, 700);
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -50,7 +50,7 @@ public class TeacherHome extends JFrame implements ActionListener, MouseListener
 
         // Navbar
 
-        welcome = new JLabel("Welcome, " + name);
+        welcome = new JLabel("Welcome, " + tName);
         welcome.setFont(font.getMediumFont());
         welcome.setForeground(color.getBgColor());
         welcome.setBounds(40, 18, 400, 25);
@@ -90,10 +90,10 @@ public class TeacherHome extends JFrame implements ActionListener, MouseListener
 
         // Texts
 
-        loginSuccess = new JLabel("You have successfully Logged in");
+        loginSuccess = new JLabel("Please Select a course");
         loginSuccess.setFont(font.getMediumFont());
         loginSuccess.setForeground(color.getNavbarColor());
-        loginSuccess.setBounds(580, 90, 400, 25);
+        loginSuccess.setBounds(360, 90, 400, 25);
         panel.add(loginSuccess);
 
         studentNumber = new JLabel("Students");
@@ -137,7 +137,7 @@ public class TeacherHome extends JFrame implements ActionListener, MouseListener
         panel.add(boxTwo);
 
         // Combobox
-        List<Course> course = Coursedb.getCourseList(ID);
+        List<Course> course = Coursedb.getCourseList(teacherId);
 
         int length = course.size();
         coursess = new String[length];
@@ -162,6 +162,7 @@ public class TeacherHome extends JFrame implements ActionListener, MouseListener
         goToButton.setBackground(color.getButtonColor());
         goToButton.setFocusPainted(false);
         goToButton.addActionListener(this);
+        goToButton.setEnabled(false);
         panel.add(goToButton);
 
         deleteButton = new JButton("Delete Course");
@@ -170,6 +171,7 @@ public class TeacherHome extends JFrame implements ActionListener, MouseListener
         deleteButton.setForeground(color.getBgColor());
         deleteButton.setBackground(color.getDelteButtonColor());
         deleteButton.addActionListener(this);
+        deleteButton.setEnabled(false);
         panel.add(deleteButton);
 
         this.add(panel);
@@ -185,14 +187,14 @@ public class TeacherHome extends JFrame implements ActionListener, MouseListener
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == addCourse) {
             this.dispose();
-            AddCourse f = new AddCourse(theCourse, teacherId);
+            AddCourse f = new AddCourse(teacherName, teacherId);
             f.setLocationRelativeTo(null);
             f.setVisible(true);
 
         } else if (e.getSource() == goToButton) {
 
             this.dispose();
-            CoursePage cc = new CoursePage(theCourse, courseId);
+            CoursePage cc = new CoursePage(teacherName, teacherId, courseId);
             cc.setLocationRelativeTo(null);
             cc.setVisible(true);
 
@@ -218,6 +220,9 @@ public class TeacherHome extends JFrame implements ActionListener, MouseListener
         // String str2 = "123";
         if (e.getSource() == courseList) {
 
+            goToButton.setEnabled(true);
+            deleteButton.setEnabled(true);
+
             int selected = courseList.getSelectedIndex();
 
             // System.out.println(selected);
@@ -227,6 +232,9 @@ public class TeacherHome extends JFrame implements ActionListener, MouseListener
             int indice = c.get(selected).getId();
             courseId = indice;
             theCourse = c.get(selected).getName();
+
+            loginSuccess.setText(theCourse + " is now selected");
+
             String str = Coursedb.getNumberOfStudents(indice);
             num1.setText(str);
 
@@ -243,6 +251,7 @@ public class TeacherHome extends JFrame implements ActionListener, MouseListener
     }
 
     public void mouseReleased(MouseEvent e) {
+
     }
 
     public void mouseEntered(MouseEvent e) {

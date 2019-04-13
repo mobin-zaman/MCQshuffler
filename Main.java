@@ -29,6 +29,7 @@ public class Main {
         TeacherLogin fl = new TeacherLogin();
         fl.setLocationRelativeTo(null);
         fl.setVisible(true);
+        fl.setResizable(false);
 
         // System.out.println(Coursedb.getNumberOfQuestions(3));
 
