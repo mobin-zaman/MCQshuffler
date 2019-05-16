@@ -5,6 +5,7 @@ public class Exam {
     private int courseId;
     private String description;
     private int duration;
+    private int isPublished;
 
     public void setId(int id) {
         this.id = id;
@@ -37,4 +38,13 @@ public class Exam {
     public int getDuration() {
         return duration;
     }
+
+    public void setIsPublished(int p) {
+        this.isPublished = p;
+    }
+
+    public int getIsPublished() {
+        return isPublished;
+    }
+
 }

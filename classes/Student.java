@@ -12,6 +12,9 @@ public class Student {
         this.password = password;
     }
 
+    public Student() {
+    }
+
     public int getId() {
         return id;
     }

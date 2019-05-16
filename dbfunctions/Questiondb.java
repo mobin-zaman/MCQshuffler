@@ -11,10 +11,26 @@ public class Questiondb {
     // for inserting a single question
     public static void insertQuestion(Question q) {
         DB db = DB.getDB();
+        System.out.println("DEBUG: description from q: " + q.getDescription());
+        System.out.println("DEBUG: courseId from q: " + q.getCourseId());
         String sql = "Insert into question (courseId,description,choiceOne,choiceTwo,choiceThree,choiceFour,correctChoice) Value(?,?,?,?,?,?,?)";
         try {
+
             db.run.update(db.getConn(), sql, q.getCourseId(), q.getDescription(), q.getChoiceOne(), q.getChoiceTwo(),
                     q.getChoiceThree(), q.getChoiceFour(), q.getCorrectChoice());
+        } catch (Exception e) {
+            System.out.println("insertQuestion(): " + e);
+        }
+    }
+
+    public static void updateQuestion(Question q) {
+        DB db = DB.getDB();
+        System.out.println("updateQues: " + q.getId());
+        System.out.println("description: " + q.getDescription());
+        String sql = "UPDATE `question` SET `description` = ?, `choiceOne` = ?,`choiceTwo` = ?, `choiceThree` = ?, `choiceFour` = ?, `correctChoice` = ? WHERE `question`.`id` = ?";
+        try {
+            db.run.update(db.getConn(), sql, q.getDescription(), q.getChoiceOne(), q.getChoiceTwo(), q.getChoiceThree(),
+                    q.getChoiceFour(), q.getCorrectChoice(), q.getId());
         } catch (Exception e) {
             System.out.println("insertQuestion(): " + e);
         }

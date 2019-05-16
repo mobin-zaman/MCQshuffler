@@ -6,6 +6,9 @@ import java.util.List;
 
 import org.apache.commons.dbutils.ResultSetHandler;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
+import org.apache.commons.dbutils.handlers.ColumnListHandler;
+import org.apache.commons.dbutils.handlers.MapListHandler;
+import org.apache.commons.dbutils.handlers.BeanHandler;
 
 import java.util.*;
 
@@ -50,14 +53,15 @@ public class Examdb {
         return questionList.size();
     }
 
-    public static void createExam(int courseId, String description, int numberOfQuestions, int duration) {
+    public static boolean createExam(int courseId, String description, int numberOfQuestions, int duration) {
         DB db = DB.getDB();
         // fist insert the exam description, then retrieve id
         String sql = "Insert into exam(courseId,description,duration) Values(?,?,?)";
         try {
             db.run.update(db.getConn(), sql, courseId, description, duration);
         } catch (Exception e) {
-            System.out.println("createExam(): " + e);
+            // System.out.println("createExam(): " + e);
+            return false;
         }
         // retrieving done
         int examId = db.lastInsertId();
@@ -76,9 +80,12 @@ public class Examdb {
             try {
                 db.run.update(db.getConn(), sql, examId, x);
             } catch (Exception e) {
-                System.out.println("createExam: " + e);
+                return false;
+
+                // System.out.println("createExam: " + e);
             }
         }
+        return true;
     }
 
     public static void publishExam(int examId) {
@@ -90,6 +97,21 @@ public class Examdb {
         } catch (Exception e) {
             System.out.println("publsh exam: " + e);
         }
+    }
+
+    public static List<Exam> getPublishedExamList(int courseId) {
+        List<Exam> examList = null;
+        DB db = DB.getDB();
+
+        String sql = "SELECT * FROM exam WHERE courseId=? AND isPublished=1";
+        ResultSetHandler<List<Exam>> resultSetHandler = new BeanListHandler<Exam>(Exam.class);
+        try {
+            examList = db.run.query(db.getConn(), sql, resultSetHandler, courseId);
+        } catch (Exception e) {
+            System.out.println("getExamList(): " + e);
+        }
+        return examList;
+
     }
 
     public static void runExam(int examId) {
@@ -109,6 +131,59 @@ public class Examdb {
         } catch (Exception e) {
             System.out.println("deleteexam(): " + e);
         }
+    }
+
+    public static void insertMarks(int examId, int studentId, int marks) {
+        String sql = "INSERT INTO `marks` (`id`, `examId`, `studentId`, `marks`) VALUES (NULL, ?, ?, ?)";
+        DB db = DB.getDB();
+        try {
+            db.run.update(db.getConn(), sql, examId, studentId, marks);
+        } catch (Exception e) {
+            System.out.println("insertMarks(): " + e);
+        }
+    }
+
+    // get marks function by Mobin
+    public static List<Marks> getMarks(int examId) {
+
+        List<Marks> marks = null;
+        String sql = "SELECT * FROM marks WHERE examId=?";
+        ResultSetHandler<List<Marks>> resultSetHandler = new BeanListHandler<Marks>(Marks.class);
+
+        DB db = DB.getDB();
+        try {
+            marks = db.run.query(db.getConn(), sql, resultSetHandler, examId);
+        } catch (Exception e) {
+            System.out.println("getMarks(): " + e);
+        }
+
+        return marks;
+
+    }
+
+    public static int getSingleMark(int examId, int studentId) {
+
+        Marks marks = null;
+
+        String sql = "SELECT * FROM marks WHERE examId=? AND studentId=?";
+        ResultSetHandler<Marks> resultSetHandler = new BeanHandler<Marks>(Marks.class);
+
+        DB db = DB.getDB();
+        try {
+            marks = db.run.query(db.getConn(), sql, resultSetHandler, examId, studentId);
+        } catch (Exception e) {
+            System.out.println("getMarks(): " + e);
+        }
+
+        if (marks == null)
+            return -999;
+
+        else {
+            System.out.println("debugggggggggggggggggggggggggging  " + marks.getMarks());
+
+            return marks.getMarks();
+        }
+
     }
 
     //

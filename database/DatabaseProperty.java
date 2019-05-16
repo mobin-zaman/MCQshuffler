@@ -9,33 +9,32 @@ public class DatabaseProperty {
 
     public DatabaseProperty() {
         // initiate fileInputStream
-    //     try {
-    //         fileInputStream = new FileInputStream(
-    //                 "C:/Users/Sadat\\ Jubayer/OneDriveProjectsMCQshufflerMCQshufflerconfig.properties");
-    //     } catch (Exception e) {
-    //         System.out.println("exception: " + e);
-    //     }
+        try {
+            fileInputStream = new FileInputStream(System.getProperty("user.dir") + "/config.properties");
+        } catch (Exception e) {
+            System.out.println("exception: " + e);
+        }
 
-    //     // initiate property
-    //     properties = new Properties();
+        // initiate property
+        properties = new Properties();
 
-    //     try {
-    //         properties.load(fileInputStream);
-    //     } catch (Exception e) {
-    //         System.out.println("exception: " + e);
-    //     }
-    // }
+        try {
+            properties.load(fileInputStream);
+        } catch (Exception e) {
+            System.out.println("exception: " + e);
+        }
+    }
 
-    // public String username() {
-    //     return properties.getProperty("username");
-    // }
+    public String username() {
+        return properties.getProperty("username");
+    }
 
-    // public String password() {
-    //     return properties.getProperty("password");
-    // }
+    public String password() {
+        return properties.getProperty("password");
+    }
 
-    // public String url() {
-    //     return properties.getProperty("url");
+    public String url() {
+        return properties.getProperty("url");
     }
 
 }
